@@ -1,0 +1,57 @@
+﻿@model IEnumerable<GeoQuiz.Models.Drzava>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NazivDrzava)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GlavniGrad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Zastava)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BrojStanovnika)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Kontinent.NazivKontinent)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.NazivDrzava)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GlavniGrad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Zastava)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BrojStanovnika)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Kontinent.NazivKontinent)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.SifraDrzava }) |
+            @Html.ActionLink("Details", "Details", new { id=item.SifraDrzava }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.SifraDrzava })
+        </td>
+    </tr>
+}
+
+</table>
