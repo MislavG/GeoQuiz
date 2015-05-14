@@ -13,7 +13,7 @@ namespace GeoQuiz.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult Igraj()
         {
             ViewBag.Message = "Your application description page.";
 
