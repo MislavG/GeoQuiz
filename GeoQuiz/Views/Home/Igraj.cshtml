@@ -197,18 +197,23 @@
         function recordEvent(event) {
             var target = event.getTarget();
             var type = target.getType();
-            if (type == "KmlPolygon") {
-            } else if (type == "KmlPlacemark") {
+            if (type == "KmlPlacemark") {
                 // get the data you want from the target.
                 var description = target.getDescription();
                 var balloon = target.getBalloonHtml();
                 var n = balloon.indexOf("=Niger'");  //gdje je Niger ići će varijabla trenutna država koju ćemo izgenerirati
                 alert(n);
-                //alert(description);
             }
         }
 
         google.earth.addEventListener(ge.getGlobe(), 'dblclick', recordEvent);
+
+        function popupPrevent(event)
+        {
+            event.preventDefault();
+        }
+
+        google.earth.addEventListener(ge.getGlobe(), 'click', popupPrevent); //sprijecavanje balona nakon klika
 
         // Listen to the mousemove event on the globe.
 
