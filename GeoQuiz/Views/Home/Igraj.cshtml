@@ -33,100 +33,272 @@
               width: 900px;">
                 <h2>
                     <script type="text/javascript">
-                    var ge;
-                    google.load("earth", "1",
-                            { "other_params": "sensor=false" });
-                    google.setOnLoadCallback(init);
+    var ge;
+    //var map = google.earth.createInstance()
+    google.load("earth", "1",{ "other_params": "sensor=false" });
+    google.setOnLoadCallback(init);
 
 
+    function init() {
+        google.earth.createInstance('map3d', initCB, failureCB);
 
-                    function init() {
-                        google.earth.createInstance('map3d', initCB, failureCB);
+    }
+
+
+    function initCB(instance) {
+        //  Console.Writeline("krafna2");
+        ge = instance;
+        ge.getWindow().setVisibility(true);
+        ge.getLayerRoot().enableLayerById(ge.LAYER_BORDERS , false);
+        /*ge.getLayerRoot().enableLayerById("530286de-c7b3-11dc-938c-dd553d8c9902", true);       // internation borders
+        ge.getLayerRoot().enableLayerById("cfdff130-394a-11e0-98fa-dd5743f1dfd8", true);       // coastline
+        ge.getLayerRoot().enableLayerById("533444c6-c7b3-11dc-b02e-dd553d8c9902", true);       // 1st level borders too
+        ge.getLayerRoot().enableLayerById("534ab67a-c7b3-11dc-a2a7-dd553d8c9902", false);       // 2nd level borders too
+        ge.getLayerRoot().enableLayerById("e2334aaa-e853-11df-9192-77880e18aa7d", false);       // geographic features
+        */
+        //Create the placemark.
+        var placemark = ge.createPlacemark('');
+        placemark.setName("bla");
+        placemark.setName('Drag Me!');
+
+
+        //listen for mousedown on the window (look specifically for point placemarks)
+        google.earth.addEventListener(ge.getWindow(), 'mousedown', function (event) {
+            if (event.getTarget().getType() == 'KmlPlacemark' && event.getTarget().getGeometry().getType() == 'KmlPoint') {
+                //event.preventDefault();
+                var placemark = event.getTarget();
+
+                dragInfo = {
+                    placemark: event.getTarget(),
+                    dragged: false
+                };
+            }
+        });
+
+        // listen for mousemove on the globe
+        google.earth.addEventListener(ge.getGlobe(), 'mousemove', function (event) {
+            if (dragInfo) {
+                event.preventDefault();
+                var point = dragInfo.placemark.getGeometry();
+                point.setLatitude(event.getLatitude());
+                point.setLongitude(event.getLongitude());
+                dragInfo.dragged = true;
+            }
+        });
+
+        // listen for mouseup on the window
+        google.earth.addEventListener(ge.getWindow(), 'mouseup', function (event) {
+            if (dragInfo) {
+                if (dragInfo.dragged) {
+                    // if the placemark was dragged, prevent balloons from popping up
+                    event.preventDefault();
+                }
+
+                dragInfo = null;
+            }
+        });
+
+
+        google.earth.addEventListener(placemark, 'click', function (event) {
+            var text = 'Click:';
+
+            function addToMessage(append1, append2) {
+                text += ' ' + append1 + ': ' + append2 + '\n';
+            }
+
+            //addToMessage('target type', event.getTarget().getType());
+            //addToMessage('currentTarget type', event.getCurrentTarget().getType());
+            //addToMessage('button', event.getButton());
+            //addToMessage('clientX', event.getClientX());
+            //addToMessage('clientY', event.getClientY());
+            //addToMessage('screenX', event.getScreenX());
+            //addToMessage('screenY', event.getScreenY());
+            addToMessage('latitude', event.getLatitude());
+            addToMessage('longitude', event.getLongitude());
+            addToMessage('altitude', event.getAltitude());
+            addToMessage('didHitGlobe', event.getDidHitGlobe());
+            //addToMessage('altKey', event.getAltKey());
+            //addToMessage('ctrlKey', event.getCtrlKey());
+            //addToMessage('shiftKey', event.getShiftKey());
+            //addToMessage('timeStamp', event.getTimeStamp());
+
+            // Prevent default balloon from popping up for marker placemarks
+            event.preventDefault();
+
+            // wrap alerts in API callbacks and event handlers
+            // in a setTimeout to prevent deadlock in some browsers
+            setTimeout(function () {
+                alert(text);
+            }, 0);
+        });
+
+
+        //Set the placemark's location.
+        var point = ge.createPoint('');
+        point.setLatitude(50.0);
+        point.setLongitude(20.0);
+        placemark.setGeometry(point);
+
+        // Add the placemark to Earth.
+        ge.getFeatures().appendChild(placemark);
+
+        /*var kmlString = ''
+                   + '<?xml version="1.0" encoding="UTF-8"?>'
+                   + '<kml xmlns="http://www.opengis.net/kml/2.2">'
+
+                   + '<Document>'
+                   + '  <Placemark id="cro">'
+                   + '    <name>Placemark from KML string</name>'
+                   + '    <Point>'
+                   + '      <coordinates>-24.00,130.0,0</coordinates>'
+                   + '    </Point>'
+                   + '  </Placemark>'
+
+                   + '</Document>'
+                   + '</kml>';*/
+
+        var kmlUrl = 'https://sites.google.com/site/mislavsite/countries_world-kml/doc3.kml?attredirects=0&d=1';
+        addKmlFromUrl(kmlUrl);
+
+        function addKmlFromUrl(kmlUrl) {
+            google.earth.fetchKml(ge, kmlUrl, kmlFinishedLoading);
+        }
+
+        function kmlFinishedLoading(kmlObject) {
+            if (kmlObject) {
+                ge.getFeatures().appendChild(kmlObject);
+            }
+        }
+
+        function kmlFinishedLoading(kmlObject) {
+            if (kmlObject) {
+                // check if the object is a KmlContainer (folder or document)
+                if ('getFeatures' in kmlObject) {
+                    var firstChild = kmlObject.getFeatures().getFirstChild();
+                    if (firstChild !== null) {
+                        kmlObject.getFeatures().removeChild(firstChild);
                     }
+                }
+
+                ge.getFeatures().appendChild(kmlObject);
+            }
+        }
+
+        /*google.earth.addEventListener(chart, 'select', function () {
+            var selectedItem = chart.getSelection()[0];
+            if (selectedItem) {
+                var country = data.getValue(selectedItem.row, 0);
+                if (country == 'France') { alert('ciao') };
+            }
+        });*/
 
 
-                    function initCB(instance) {
-                        ge = instance;
-                        ge.getWindow().setVisibility(true);
-                        // ge.getLayerRoot().enableLayerById(ge.LAYER_BORDERS , true);
+
+        function recordEvent(event) {
+            var target = event.getTarget();
+            var type = target.getType();
+            if (type == "KmlPolygon") {
+            } else if (type == "KmlPlacemark") {
+                // get the data you want from the target.
+                var description = target.getDescription();
+                var balloon = target.getBalloonHtml();
+                alert(description);
+            }
+        }
+
+        google.earth.addEventListener(ge.getGlobe(), 'click', recordEvent);
+
+        // Listen to the mousemove event on the globe.
+
+        /*var kmlObject = ge.parseKml(kmlString);
+        ge.getFeatures().appendChild(kmlObject);
+        var placemark = ge.getElementById('cro');
+        var placemark = ge.getElementById('a');
+
+        google.earth.addEventListener(placemark, 'click', function (event) {
+            // Prevent the default balloon from appearing.
+            event.preventDefault();
+
+            var content = placemark.getDescription();
+            var balloon = ge.createHtmlStringBalloon('');
+            balloon.setFeature(placemark);
+            balloon.setContentString(content);
+            ge.setBalloon(balloon);
+        });*/
+
+        /*var kmlObject = ge.parseKml("http://earth-api-samples.googlecode.com/svn/trunk/examples/static/red.kml");
+        ge.getFeatures().appendChild(kmlObject);
+        ge.getView().setAbstractView(kmlObject.getAbstractView());*/
+
+        /* var link = ge.createLink('');
+         link.setLookAt('http://earth-api-samples.googlecode.com/svn/trunk/examples/static/red.kml');
+
+         var networkLink = ge.createNetworkLink('');
+         networkLink.setLink(link);
+         networkLink.setFlyToView(true);
+
+         ge.getFeatures().appendChild(networkLink);
+
+         var kmlUrl = 'http://earth-api-samples.googlecode.com/svn/trunk/examples/static/red.kml';
+         var kmlOptions = { map: ge };
+         var kmlLayer = new google.earth.KmlLayer(kmlUrl, kmlOptions);*/
+        /*
+     rawFile.open("GET", "file:///C:/Users/Antonio/Downloads/289717-country/doc.kml", false);
+     rawFile.onreadystatechange = function () {
+         if (rawFile.readyState === 4) {
+             if (rawFile.status === 200 || rawFile.status == 0) {
+                 var allText = rawFile.responseText;
+                 alert(allText);
+                 var kmlObject = ge.parseKml(allText);
+                 ge.getFeatures().appendChild(kmlObject);
+                 ge.getView().setAbstractView(kmlObject.getAbstractView());
+             }
+         }
+     }*/
 
 
-                        var kmlString = ''
-                                   + '<?xml version="1.0" encoding="UTF-8"?>'
-                                   + '<kml xmlns="http://www.opengis.net/kml/2.2">'
+        //ge.getView().setAbstractView(kmlObject.getAbstractView());
+        //setLookAt(ge, -122.448425, 37.802907,200000.0)
+        //Australija
+        //setLookAt(ge, -24.0, 130.0, 5500000.0);
+        //Europa
+        setLookAt(ge, 50.0, 20.0, 4500000.0);
+        //Azija
+        //setLookAt(ge, 40.0, 100.0, 8000000.0);
+        //networkLink.setFlyToView(true);
+    }
+    function setLookAt(ge, latitude, longitude, range) {
+        var lookAt = ge.createLookAt('');
+        lookAt.setLatitude(latitude);
+        lookAt.setLongitude(longitude);
+        lookAt.setRange(range);
+        ge.getView().setAbstractView(lookAt);
+    }
 
-                                   + '<Document>'
-                                   + '  <Placemark>'
-                                   + '    <name>Placemark from KML string</name>'
-                                   + '    <Point>'
-                                   + '      <coordinates>-112.448425,37.802907,0</coordinates>'
-                                   + '    </Point>'
-                                   + '  </Placemark>'
-
-                                   + '</Document>'
-                                   + '</kml>';
-
-                        var kmlObject = ge.parseKml("file:///C:/Users/Antonio/Downloads/289717-country/doc.kml");
-                        ge.getFeatures().appendChild(kmlObject);
-                        ge.getView().setAbstractView(kmlObject.getAbstractView());
-                        /*
-                     rawFile.open("GET", "file:///C:/Users/Antonio/Downloads/289717-country/doc.kml", false);
-                     rawFile.onreadystatechange = function () {
-                         if (rawFile.readyState === 4) {
-                             if (rawFile.status === 200 || rawFile.status == 0) {
-                                 var allText = rawFile.responseText;
-                                 alert(allText);
-                                 var kmlObject = ge.parseKml(allText);
-                                 ge.getFeatures().appendChild(kmlObject);
-                                 ge.getView().setAbstractView(kmlObject.getAbstractView());
-                             }
-                         }
-                     }*/
-
-
-                        //ge.getView().setAbstractView(kmlObject.getAbstractView());
-                        //setLookAt(ge, -122.448425, 37.802907,200000.0)
-                        //Australija
-                        //setLookAt(ge, -24.0, 130.0, 5500000.0);
-                        //Europa
-                        setLookAt(ge, 50.0, 20.0, 4500000.0);
-                        //Azija
-                        //setLookAt(ge, 40.0, 100.0, 8000000.0);
-
-                    }
-                    function setLookAt(ge, latitude, longitude, range) {
-                        var lookAt = ge.createLookAt('');
-                        lookAt.setLatitude(latitude);
-                        lookAt.setLongitude(longitude);
-                        lookAt.setRange(range);
-                        ge.getView().setAbstractView(lookAt);
-                    }
-
-                    function failureCB(errorCode) {
-                    }
-                    google.setOnLoadCallback(init);
-                    </script>
-
-                </h2>
-            </div>
-            <div class="navbar navbar-default" style="width: 900px;">
-                <div class="container">
-                    <div class="navbar-collapse collapse">
-                        <ul class="nav navbar-nav">
-                            <li>@Html.ActionLink("Europa", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Afrika", "Igraj", "Home")</li>
-                            <li>@Html.ActionLink("Azija", "Contact", "Home")</li>
-                            <li>@Html.ActionLink("S. Amerika", "Contact", "Home")</li>
-                            <li>@Html.ActionLink("J. Amerika", "Contact", "Home")</li>
-                            <li>@Html.ActionLink("Australija", "Contact", "Home")</li>
-                            <li>                                                                                 </li>
-                            <li>@Html.ActionLink("Nova igra", "Index", "Home")</li>
-                        </ul>
-                    </div>
-
-                </div>
-            </div>
+    function failureCB(errorCode) {
+    }
+    google.setOnLoadCallback(init);
+        </script>
+    </h2>
+</div>
+<div class="navbar navbar-default" style="width: 900px;">
+    <div class="container">
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Europa", "Index", "Home")</li>
+                <li>@Html.ActionLink("Afrika", "Igraj", "Home")</li>
+                <li>@Html.ActionLink("Azija", "Contact", "Home")</li>
+                <li>@Html.ActionLink("S. Amerika", "Contact", "Home")</li>
+                <li>@Html.ActionLink("J. Amerika", "Contact", "Home")</li>
+                <li>@Html.ActionLink("Australija", "Contact", "Home")</li>
+                <li>                                                                                 </li>
+                <li>@Html.ActionLink("Nova igra", "Index", "Home")</li>
+            </ul>
         </div>
+
     </div>
+</div>
+</div>
+</div>
 </body>
 </html>
