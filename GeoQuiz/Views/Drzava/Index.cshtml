@@ -11,10 +11,7 @@
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.NazivDrzava)
-        </th>
-        <th>
+        @*@<th>
             @Html.DisplayNameFor(model => model.GlavniGrad)
         </th>
         <th>
@@ -24,17 +21,20 @@
             @Html.DisplayNameFor(model => model.BrojStanovnika)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Kontinent.NazivKontinent)
+            @Html.DisplayNameFor(model => model.NazivDrzavaHr)
+        </th> *@
+        <th>
+            @Html.DisplayNameFor(model => model.NazivDrzavaEng)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Kontinent.NazivKontinentEng)
         </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.NazivDrzava)
-        </td>
-        <td>
+        @* @<td>
             @Html.DisplayFor(modelItem => item.GlavniGrad)
         </td>
         <td>
@@ -44,8 +44,14 @@
             @Html.DisplayFor(modelItem => item.BrojStanovnika)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Kontinent.NazivKontinent)
+            @Html.DisplayFor(modelItem => item.NazivDrzavaHr)
+        </td> *@
+        <td>
+            @Html.DisplayFor(modelItem => item.NazivDrzavaEng)
         </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Kontinent.NazivKontinentEng)
+        </td> 
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.SifraDrzava }) |
             @Html.ActionLink("Details", "Details", new { id=item.SifraDrzava }) |

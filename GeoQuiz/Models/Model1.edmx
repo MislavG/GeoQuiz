@@ -4,17 +4,18 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="GeoQuizModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="GeoQuizModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Drzava">
           <Key>
             <PropertyRef Name="SifraDrzava" />
           </Key>
-          <Property Name="SifraDrzava" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SifraDrzava" Type="smallint" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="SifraKontinent" Type="tinyint" Nullable="false" />
-          <Property Name="NazivDrzava" Type="nchar" MaxLength="30" Nullable="false" />
-          <Property Name="GlavniGrad" Type="nchar" MaxLength="20" Nullable="false" />
-          <Property Name="Zastava" Type="image" Nullable="false" />
-          <Property Name="BrojStanovnika" Type="int" Nullable="false" />
+          <Property Name="NazivDrzavaHr" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="NazivDrzavaEng" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="GlavniGrad" Type="nchar" MaxLength="40" />
+          <Property Name="BrojStanovnika" Type="int" />
+          <Property Name="Zastava" Type="image" />
         </EntityType>
         <EntityType Name="HighScore">
           <Key>
@@ -29,7 +30,8 @@
             <PropertyRef Name="SifraKontinent" />
           </Key>
           <Property Name="SifraKontinent" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="NazivKontinent" Type="nchar" MaxLength="20" />
+          <Property Name="NazivKontinentHr" Type="nchar" MaxLength="30" Nullable="false" />
+          <Property Name="NazivKontinentEng" Type="nchar" MaxLength="30" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -63,8 +65,7 @@
             <End Role="Drzava" EntitySet="Drzava" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="GeoQuizModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -74,11 +75,12 @@
           </Key>
           <Property Name="SifraDrzava" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SifraKontinent" Type="Byte" Nullable="false" />
-          <Property Name="NazivDrzava" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="GlavniGrad" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="Zastava" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
-          <Property Name="BrojStanovnika" Type="Int32" Nullable="false" />
+          <Property Name="GlavniGrad" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="Zastava" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="BrojStanovnika" Type="Int32" />
           <NavigationProperty Name="Kontinent" Relationship="Self.FK_Drzava_Kontinent" FromRole="Drzava" ToRole="Kontinent" />
+          <Property Name="NazivDrzavaHr" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="NazivDrzavaEng" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="HighScore">
           <Key>
@@ -93,8 +95,9 @@
             <PropertyRef Name="SifraKontinent" />
           </Key>
           <Property Name="SifraKontinent" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NazivKontinent" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="Drzava" Relationship="Self.FK_Drzava_Kontinent" FromRole="Kontinent" ToRole="Drzava" />
+          <Property Name="NazivKontinentHr" Type="String" Nullable="false" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="NazivKontinentEng" Type="String" Nullable="false" MaxLength="30" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -137,9 +140,10 @@
           <EntitySetMapping Name="Drzava">
             <EntityTypeMapping TypeName="GeoQuizModel.Drzava">
               <MappingFragment StoreEntitySet="Drzava">
+                <ScalarProperty Name="NazivDrzavaEng" ColumnName="NazivDrzavaEng" />
+                <ScalarProperty Name="NazivDrzavaHr" ColumnName="NazivDrzavaHr" />
                 <ScalarProperty Name="SifraDrzava" ColumnName="SifraDrzava" />
                 <ScalarProperty Name="SifraKontinent" ColumnName="SifraKontinent" />
-                <ScalarProperty Name="NazivDrzava" ColumnName="NazivDrzava" />
                 <ScalarProperty Name="GlavniGrad" ColumnName="GlavniGrad" />
                 <ScalarProperty Name="Zastava" ColumnName="Zastava" />
                 <ScalarProperty Name="BrojStanovnika" ColumnName="BrojStanovnika" />
@@ -158,8 +162,9 @@
           <EntitySetMapping Name="Kontinent">
             <EntityTypeMapping TypeName="GeoQuizModel.Kontinent">
               <MappingFragment StoreEntitySet="Kontinent">
+                <ScalarProperty Name="NazivKontinentEng" ColumnName="NazivKontinentEng" />
+                <ScalarProperty Name="NazivKontinentHr" ColumnName="NazivKontinentHr" />
                 <ScalarProperty Name="SifraKontinent" ColumnName="SifraKontinent" />
-                <ScalarProperty Name="NazivKontinent" ColumnName="NazivKontinent" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

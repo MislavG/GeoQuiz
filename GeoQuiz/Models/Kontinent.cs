@@ -20,7 +20,8 @@ namespace GeoQuiz.Models
         }
     
         public byte SifraKontinent { get; set; }
-        public string NazivKontinent { get; set; }
+        public string NazivKontinentHr { get; set; }
+        public string NazivKontinentEng { get; set; }
     
         public virtual ICollection<Drzava> Drzava { get; set; }
     }

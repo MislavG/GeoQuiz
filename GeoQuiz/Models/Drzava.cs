@@ -16,10 +16,11 @@ namespace GeoQuiz.Models
     {
         public short SifraDrzava { get; set; }
         public byte SifraKontinent { get; set; }
-        public string NazivDrzava { get; set; }
         public string GlavniGrad { get; set; }
         public byte[] Zastava { get; set; }
-        public int BrojStanovnika { get; set; }
+        public Nullable<int> BrojStanovnika { get; set; }
+        public string NazivDrzavaHr { get; set; }
+        public string NazivDrzavaEng { get; set; }
     
         public virtual Kontinent Kontinent { get; set; }
     }

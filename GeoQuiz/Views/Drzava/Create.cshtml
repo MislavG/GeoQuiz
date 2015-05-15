@@ -25,14 +25,6 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.NazivDrzava, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NazivDrzava)
-                @Html.ValidationMessageFor(model => model.NazivDrzava)
-            </div>
-        </div>
-
-        <div class="form-group">
             @Html.LabelFor(model => model.GlavniGrad, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.GlavniGrad)
@@ -53,6 +45,22 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.BrojStanovnika)
                 @Html.ValidationMessageFor(model => model.BrojStanovnika)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NazivDrzavaHr, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NazivDrzavaHr)
+                @Html.ValidationMessageFor(model => model.NazivDrzavaHr)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NazivDrzavaEng, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NazivDrzavaEng)
+                @Html.ValidationMessageFor(model => model.NazivDrzavaEng)
             </div>
         </div>
 

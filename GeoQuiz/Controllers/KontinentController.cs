@@ -46,7 +46,7 @@ namespace GeoQuiz.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="SifraKontinent,NazivKontinent")] Kontinent kontinent)
+        public ActionResult Create([Bind(Include="SifraKontinent,NazivKontinentHr,NazivKontinentEng")] Kontinent kontinent)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace GeoQuiz.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="SifraKontinent,NazivKontinent")] Kontinent kontinent)
+        public ActionResult Edit([Bind(Include="SifraKontinent,NazivKontinentHr,NazivKontinentEng")] Kontinent kontinent)
         {
             if (ModelState.IsValid)
             {

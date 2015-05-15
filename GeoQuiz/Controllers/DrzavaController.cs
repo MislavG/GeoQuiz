@@ -39,7 +39,7 @@ namespace GeoQuiz.Controllers
         // GET: /Drzava/Create
         public ActionResult Create()
         {
-            ViewBag.SifraKontinent = new SelectList(db.Kontinent, "SifraKontinent", "NazivKontinent");
+            ViewBag.SifraKontinent = new SelectList(db.Kontinent, "SifraKontinent", "NazivKontinentHr");
             return View();
         }
 
@@ -48,7 +48,7 @@ namespace GeoQuiz.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="SifraDrzava,SifraKontinent,NazivDrzava,GlavniGrad,Zastava,BrojStanovnika")] Drzava drzava)
+        public ActionResult Create([Bind(Include="SifraDrzava,SifraKontinent,GlavniGrad,Zastava,BrojStanovnika,NazivDrzavaHr,NazivDrzavaEng")] Drzava drzava)
         {
             if (ModelState.IsValid)
             {
@@ -57,7 +57,7 @@ namespace GeoQuiz.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.SifraKontinent = new SelectList(db.Kontinent, "SifraKontinent", "NazivKontinent", drzava.SifraKontinent);
+            ViewBag.SifraKontinent = new SelectList(db.Kontinent, "SifraKontinent", "NazivKontinentHr", drzava.SifraKontinent);
             return View(drzava);
         }
 
@@ -73,7 +73,7 @@ namespace GeoQuiz.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.SifraKontinent = new SelectList(db.Kontinent, "SifraKontinent", "NazivKontinent", drzava.SifraKontinent);
+            ViewBag.SifraKontinent = new SelectList(db.Kontinent, "SifraKontinent", "NazivKontinentHr", drzava.SifraKontinent);
             return View(drzava);
         }
 
@@ -82,7 +82,7 @@ namespace GeoQuiz.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="SifraDrzava,SifraKontinent,NazivDrzava,GlavniGrad,Zastava,BrojStanovnika")] Drzava drzava)
+        public ActionResult Edit([Bind(Include="SifraDrzava,SifraKontinent,GlavniGrad,Zastava,BrojStanovnika,NazivDrzavaHr,NazivDrzavaEng")] Drzava drzava)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +90,7 @@ namespace GeoQuiz.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.SifraKontinent = new SelectList(db.Kontinent, "SifraKontinent", "NazivKontinent", drzava.SifraKontinent);
+            ViewBag.SifraKontinent = new SelectList(db.Kontinent, "SifraKontinent", "NazivKontinentHr", drzava.SifraKontinent);
             return View(drzava);
         }
 

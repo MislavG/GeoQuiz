@@ -18,10 +18,18 @@
         @Html.HiddenFor(model => model.SifraKontinent)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.NazivKontinent, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.NazivKontinentHr, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.NazivKontinent)
-                @Html.ValidationMessageFor(model => model.NazivKontinent)
+                @Html.EditorFor(model => model.NazivKontinentHr)
+                @Html.ValidationMessageFor(model => model.NazivKontinentHr)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NazivKontinentEng, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NazivKontinentEng)
+                @Html.ValidationMessageFor(model => model.NazivKontinentEng)
             </div>
         </div>
 
