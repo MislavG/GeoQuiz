@@ -13,9 +13,22 @@ namespace GeoQuiz.Controllers
             return View();
         }
 
-        public ActionResult Igraj()
+        public ActionResult Play()
         {
-            ViewBag.Message = "Your application description page.";
+            Random rand = new Random();
+            List<string> drzave = new List<string>();
+            drzave.Add("Croatia");
+            drzave.Add("Serbia & Montenegro");
+            drzave.Add("Bosnia & Herzegovina");
+            drzave.Add("Germany");
+            drzave.Add("Switzerland");
+            int r = rand.Next(drzave.Count);
+
+
+            ViewBag.ListDrzave = drzave;
+            ViewBag.Random = ((string)drzave[r]); //OVO JE DRZAVA KOJA SE SALJE U Play.cshtml U 20. LINIJU KODA
+            ViewBag.Message = "Test lista";
+            Console.WriteLine(ViewBag.Random);
 
             return View();
         }
