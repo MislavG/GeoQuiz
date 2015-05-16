@@ -92,7 +92,7 @@
         function go(count) {
             var lookAt = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
             lookAt.setLongitude(lookAt.getLongitude() + 1);
-            lookAt.setRange(15000000.0);
+            //lookAt.setRange(17000000.0);
             ge.getView().setAbstractView(lookAt);
 
             if (count > 0) {
