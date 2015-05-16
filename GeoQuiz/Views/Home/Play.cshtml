@@ -17,28 +17,47 @@
         <div style="height: 50px;"></div>
         <div style="width: 600px; float: left;">
             <div style="height: 300px;">
-                <h1 class="text-success" align="center">@ViewBag.Random</h1> <!-- OVDJE IDE DRZAVA IZ BAZE -->
+                <h1 class="text-success" align="center">@ViewBag.Random</h1>
             </div>
             <div style="margin-left: 50px;">
-                <h2>Statistika</h2>
-                <h4>Bodovi:</h4>
-                <h4>Točni odgovori:</h4>
-                <h4>Netočni odgovori:</h4>
-                <h4>Neodgovorena pitanja:</h4>
-            </div>
-        </div>
-        <div style="margin-left: 620px;">
-            <div align="right" id="map3d"
-                 style="height: 600px;
-              width: 900px;">
-                <h2>
-                    <script>
-                        var drz1 = "@ViewBag.Random";
-                        var drz = drz1.replace(/&amp;/g, '&');
 
-                        function Zumiraj(a, b, c) {
-                            setLookAt(ge, a, b, c);
-                        }
+               
+            @using (Html.BeginForm("Show", "Home", FormMethod.Post))
+            {
+                <b>Select continent(s): </b>
+
+                foreach (string con in Model.Continents)
+                {
+                    <table>
+                        <tr>
+                            <td>
+                                @Html.CheckBox(con) @con
+                            </td>
+                        </tr>
+                    </table>
+                }
+
+            <input type="submit" value="Save" />
+            }               
+                        <h3>Statistic</h3>
+                        <h4>Score:</h4>
+                        <h4>Correct answers:</h4>
+                        <h4>Incorrect answers:</h4>
+                
+                    </div>
+                </div>
+                <div style="margin-left: 620px;">
+                    <div align="right" id="map3d"
+                         style="height: 600px;
+                      width: 900px;">
+                        <h2>
+                            <script>
+                                var drz1 = "@ViewBag.Random";
+                                var drz = drz1.replace(/&amp;/g, '&');
+
+                                function Zumiraj(a, b, c) {
+                                    setLookAt(ge, a, b, c);
+                                }
 
 
                     </script>
@@ -162,12 +181,11 @@
                 <li><a onclick="Zumiraj(50.0, 20.0, 4500000.0);" style="cursor: pointer; cursor: hand;">Europe</a></li>
                 <li><a onclick="Zumiraj(0.0, 20.0, 9000000.0);" style="cursor: pointer; cursor: hand;">Africa</a></li>
                 <li><a onclick="Zumiraj(35.0, 90.0, 9000000.0);" style="cursor: pointer; cursor: hand;">Asia</a></li>
-                <li><a onclick="Zumiraj(40.0, -90.0, 9000000.0);" style="cursor: pointer; cursor: hand;">N.America</a></li>
-                <li><a onclick="Zumiraj(-20.00, -60.0, 8000000.0);" style="cursor: pointer; cursor: hand;">S.America</a></li>
+                <li><a onclick="Zumiraj(40.0, -90.0, 9000000.0);" style="cursor: pointer; cursor: hand;">North America</a></li>
+                <li><a onclick="Zumiraj(-20.00, -60.0, 8000000.0);" style="cursor: pointer; cursor: hand;">South America</a></li>
                 <li><a onclick="Zumiraj(-22.0, 140.0, 7500000.0);" style="cursor: pointer; cursor: hand;">Australia</a></li>
                 
-                <li>                                                                                 </li>
-                <li><a onclick="NovaIgra();" style="cursor: pointer; cursor: hand;">New Game</a></li>
+                
             </ul>
         </div>
 

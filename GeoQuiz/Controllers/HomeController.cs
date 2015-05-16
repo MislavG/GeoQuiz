@@ -3,16 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using GeoQuiz.Models;
 
 namespace GeoQuiz.Controllers
 {
+    
     public class HomeController : Controller
     {
+        [HttpGet] 
         public ActionResult Index()
         {
             return View();
         }
 
+
+
+        [HttpGet]
         public ActionResult Play()
         {
             Random rand = new Random();
@@ -30,7 +36,29 @@ namespace GeoQuiz.Controllers
             Console.WriteLine(ViewBag.Random);
 
 
-            return View();
+            
+            return View(new CheckContinent());
+        }
+
+        [HttpPost]
+        public string Show(FormCollection postedForm, CheckContinent model)
+        {
+
+            string val = "";
+
+            foreach (var con in model.Continents)
+            {
+
+                if (postedForm[con].ToString().Contains("true"))
+                {
+
+                    val = val + " " + con;
+
+                }
+
+            }
+
+            return "Selected continents are: <b>" + val + "</b>";
         }
 
         public ActionResult Contact()
