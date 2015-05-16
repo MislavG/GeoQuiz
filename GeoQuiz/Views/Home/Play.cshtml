@@ -23,19 +23,36 @@
 
                
             @using (Html.BeginForm("Show", "Home", FormMethod.Post))
-            {
-                <b>Select continent(s): </b>
-
-                foreach (string con in Model.Continents)
                 {
-                    <table>
-                        <tr>
-                            <td>
-                                @Html.CheckBox(con) @con
-                            </td>
-                        </tr>
-                    </table>
-                }
+                    <b>Select continent(s): </b>
+                    var pom = 0;
+                    foreach (string con in Model.Continents)
+                    {
+                        pom = pom + 1;
+                        if (pom < 7)
+                        {
+                            <table>
+                                <tr>
+                                    <td>
+
+                                        @Html.CheckBox(con) @con
+                                    </td>
+                                </tr>
+                            </table>
+                        }
+                        else
+                        {
+                            <b>Or: </b>
+                            <table>
+                                <tr>
+                                    <td>
+                                        @Html.CheckBox(con) @con
+                                    </td>
+                                </tr>
+                            </table>
+                        }
+
+                    }
 
             <input type="submit" value="Save" />
             }               
