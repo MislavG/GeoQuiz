@@ -124,23 +124,28 @@
             event.preventDefault();
             var target = event.getTarget();
             var type = target.getType();
+            var boja = target.getStyleSelector().getPolyStyle().getColor();
             if (type == "KmlPlacemark") {
                 
                 // get the data you want from the target.
                 var description = target.getDescription();
                 var tocnaDrzava = description.indexOf("=" + drz + "'");  //gdje je Niger ići će varijabla trenutna država koju ćemo izgenerirati
 
-
-                //alert(tocnaDrzava);
-                //alert(drz);
                 if (tocnaDrzava == -1) {
-                    target.getStyleSelector().getPolyStyle().getColor().set('EE5C42ff'); //treba umjesto target staviti drzavu koja se pita
+                    var boja
+                    var a = boja.get(); //uzima trenutnu boju
+                    boja.set('EE5C42ff'); //obojaj u crveno
+                    setTimeout(function () { boja.set(a) }, 500); //nakon pola sekunde vrati boju koja je bila
                 }
 
                 else {
                     target.getStyleSelector().getPolyStyle().getColor().set('ff6d9600');
                 }
                 //STAVIT METODU UPDATEDISPLAY();
+
+                function vratiBoju() {
+                    target.getStyleSelector().getPolyStyle().getColor().set(a);
+                }
             }
         }
 
@@ -148,18 +153,9 @@
         (event) {
             event.preventDefault();
         });
-
-
-        //ge.getView().setAbstractView(kmlObject.getAbstractView());
-        //setLookAt(ge, -122.448425, 37.802907,200000.0)
-        //Australija
-        //setLookAt(ge, -24.0, 130.0, 5500000.0);
-        //Europa
-        //setLookAt(ge, 50.0, 20.0, 4500000.0);
-        //Azija
-        //setLookAt(ge, 40.0, 100.0, 8000000.0);
-        //networkLink.setFlyToView(true);
     }
+
+//funkcija za podesavanje pogleda na kontinente
     function setLookAt(ge, latitude, longitude, range) {
         var lookAt = ge.createLookAt('');
         lookAt.setLatitude(latitude);
