@@ -35,6 +35,12 @@
                     <script>
                         var drz1 = "@ViewBag.Random";
                         var drz = drz1.replace(/&amp;/g, '&');
+
+                        function Zumiraj(a, b, c) {
+                            setLookAt(ge, a, b, c);
+                        }
+
+
                     </script>
                     <script type="text/javascript">
     var ge;
@@ -104,20 +110,17 @@
                 var description = target.getDescription();
                 var tocnaDrzava = balloon.indexOf("=" + drz + "'");  //gdje je Niger ići će varijabla trenutna država koju ćemo izgenerirati
                 var balloon = ge.createHtmlStringBalloon('');
-                balloon.setFeature(ge.getGlobe());
 
-
-                //alert(tocnaDrzava);
-                //alert(drz);
                 if (tocnaDrzava == -1) {
-                    balloon.setContentString("netocno"); // TU STAVITI DA SE OBOJA U CRVENO
-                    ge.setBalloon(balloon);
+                    //balloon.setContentString("netocno"); // TU STAVITI DA SE OBOJA U CRVENO
+                    //ge.setBalloon(balloon);
                 }
 
                 else {
-                    balloon.setContentString("tocno");
-                    ge.setBalloon(balloon);
+                    //balloon.setContentString("tocno"); //TU ZELENO
+                    //ge.setBalloon(balloon);
                 }
+                //STAVIT METODU UPDATEDISPLAY();
             }
         }
 
@@ -125,10 +128,6 @@
         (event) {
             event.preventDefault();
         });
-
-
-
-        
 
 
         //ge.getView().setAbstractView(kmlObject.getAbstractView());
@@ -159,14 +158,15 @@
     <div class="container">
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li>@Html.ActionLink("Europe", "Index", "Home")</li>
-                <li>@Html.ActionLink("Africa", "Igraj", "Home")</li>
-                <li>@Html.ActionLink("Asia", "Contact", "Home")</li>
-                <li>@Html.ActionLink("N. America", "Contact", "Home")</li>
-                <li>@Html.ActionLink("S. America", "Contact", "Home")</li>
-                <li>@Html.ActionLink("Australia", "Contact", "Home")</li>
+                <li><a onclick="Zumiraj(50.0, 20.0, 4500000.0);" style="cursor: pointer; cursor: hand;">Europe</a></li>
+                <li><a onclick="Zumiraj();" style="cursor: pointer; cursor: hand;">Africa</a></li>
+                <li><a onclick="Zumiraj(40.0, 100.0, 8000000.0);" style="cursor: pointer; cursor: hand;">Asia</a></li>
+                <li><a onclick="Zumiraj();" style="cursor: pointer; cursor: hand;">N.America</a></li>
+                <li><a onclick="Zumiraj();" style="cursor: pointer; cursor: hand;">S.America</a></li>
+                <li><a onclick="Zumiraj(-24.0, 130.0, 5500000.0);" style="cursor: pointer; cursor: hand;">Australia</a></li>
+                
                 <li>                                                                                 </li>
-                <li>@Html.ActionLink("New Game", "Index", "Home")</li>
+                <li><a onclick="NovaIgra();" style="cursor: pointer; cursor: hand;">New Game</a></li>
             </ul>
         </div>
 

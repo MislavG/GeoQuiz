@@ -24,11 +24,11 @@ namespace GeoQuiz.Controllers
             drzave.Add("Switzerland");
             int r = rand.Next(drzave.Count);
 
-
             ViewBag.ListDrzave = drzave;
             ViewBag.Random = ((string)drzave[r]); //OVO JE DRZAVA KOJA SE SALJE U Play.cshtml U 20. LINIJU KODA
             ViewBag.Message = "Test lista";
             Console.WriteLine(ViewBag.Random);
+
 
             return View();
         }
