@@ -91,7 +91,8 @@
         //double-click oznacavanje konacnog odgovora (drzave)
         //google.earth.addEventListener(ge.getGlobe(), 'dblclick', popupPrevent);
 
-        //var drz = @ViewBag.Random;
+        //var drz = "@ViewBag.Random";
+       
 
         google.earth.addEventListener(ge.getGlobe(), 'dblclick', recordEvent); //sprijecavanje balona nakon klika
 
@@ -100,23 +101,21 @@
             var target = event.getTarget();
             var type = target.getType();
             if (type == "KmlPlacemark") {
+                
                 // get the data you want from the target.
                 var description = target.getDescription();
-                var tocnaDrzava = balloon.indexOf("=" + drz + "'");  //gdje je Niger ići će varijabla trenutna država koju ćemo izgenerirati
-                var balloon = ge.createHtmlStringBalloon('');
-                balloon.setFeature(ge.getGlobe());
-
+                var tocnaDrzava = description.indexOf("=" + drz + "'");  //gdje je Niger ići će varijabla trenutna država koju ćemo izgenerirati
+               
 
                 //alert(tocnaDrzava);
+                
                 //alert(drz);
                 if (tocnaDrzava == -1) {
-                    balloon.setContentString("netocno"); // TU STAVITI DA SE OBOJA U CRVENO
-                    ge.setBalloon(balloon);
+                    target.getStyleSelector().getPolyStyle().getColor().set('ff60ffff');
                 }
 
                 else {
-                    balloon.setContentString("tocno");
-                    ge.setBalloon(balloon);
+                    target.getStyleSelector().getPolyStyle().getColor().set('ff6d9600');
                 }
             }
         }
