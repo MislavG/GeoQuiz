@@ -69,18 +69,44 @@
 
     function init() {
         google.earth.createInstance('map3d', initCB, failureCB);
-
+        
     }
 
     //inicijaliziranje
     function initCB(instance) {
         ge = instance;
         ge.getWindow().setVisibility(true);
-        ge.getLayerRoot().enableLayerById(ge.LAYER_BORDERS , false);
+        ge.getLayerRoot().enableLayerById(ge.LAYER_BORDERS, false);
+        // Get the current view - which is America view by default
+        
 
         //loadanje KML-a
         var kmlUrl = 'https://sites.google.com/site/mislavsite/countries_world-kml/doc3.kml?attredirects=0&d=1';
         addKmlFromUrl(kmlUrl);
+
+
+        //rotacija
+        var oldFlyToSpeed = ge.getOptions().getFlyToSpeed();
+        ge.getOptions().setFlyToSpeed(ge.SPEED_TELEPORT);
+
+        function go(count) {
+            var lookAt = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
+            lookAt.setLongitude(lookAt.getLongitude() + 1);
+            lookAt.setRange(15000000.0);
+            ge.getView().setAbstractView(lookAt);
+
+            if (count > 0) {
+                setTimeout(function () {
+                    go(count + 1);
+                }, 50);
+            } else {
+                ge.getOptions().setFlyToSpeed(oldFlyToSpeed);
+            }
+        }
+
+        go(2);
+
+
 
         function addKmlFromUrl(kmlUrl) {
             google.earth.fetchKml(ge, kmlUrl, kmlFinishedLoading);
