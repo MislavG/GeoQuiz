@@ -17,7 +17,11 @@
         <div style="height: 50px;"></div>
         <div style="width: 600px; float: left;">
             <div style="height: 300px;">
-                <h1 class="text-success" align="center">@ViewBag.Random</h1>
+                @*@<h1 style="text-align:center" class="text-success">@ViewData.Model</h1>  *@
+                @*@Html.Action("RandomDrzava", "Home") *@
+                <h1>@ViewBag.Drz</h1>
+
+
             </div>
             <div style="margin-left: 50px;">
 
@@ -69,7 +73,7 @@
                       width: 900px;">
                         <h2>
                             <script>
-                                var drz1 = "@ViewBag.Random";
+                                var drz1 = "@ViewBag.Drz";
                                 var drz = drz1.replace(/&amp;/g, '&');
 
                                 function Zumiraj(a, b, c) {
@@ -103,7 +107,7 @@
 
 
         //rotacija
-        var oldFlyToSpeed = ge.getOptions().getFlyToSpeed();
+        /*var oldFlyToSpeed = ge.getOptions().getFlyToSpeed();
         ge.getOptions().setFlyToSpeed(ge.SPEED_TELEPORT);
 
         function go(count) {
@@ -121,7 +125,7 @@
             }
         }
 
-        go(2);
+        go(2); */
 
 
 
@@ -159,7 +163,7 @@
         //double-click oznacavanje konacnog odgovora (drzave)
         //google.earth.addEventListener(ge.getGlobe(), 'dblclick', popupPrevent);
 
-        //var drz = "@ViewBag.Random";
+        //var drz = "@ViewBag.Drz";
 
         google.earth.addEventListener(ge.getGlobe(), 'dblclick', recordEvent); //sprijecavanje balona nakon klika
 
@@ -173,7 +177,8 @@
                 // get the data you want from the target.
                 var description = target.getDescription();
                 var tocnaDrzava = description.indexOf("=" + drz + "'");  //gdje je Niger ići će varijabla trenutna država koju ćemo izgenerirati
-
+                alert("=" + drz + "'");
+                alert(description);
                 if (tocnaDrzava == -1) {
                     var boja
                     var a = boja.get(); //uzima trenutnu boju
@@ -217,12 +222,12 @@
     <div class="container">
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a onclick="Zumiraj(50.0, 20.0, 4500000.0);" style="cursor: pointer; cursor: hand;">Europe</a></li>
-                <li><a onclick="Zumiraj(0.0, 20.0, 9000000.0);" style="cursor: pointer; cursor: hand;">Africa</a></li>
-                <li><a onclick="Zumiraj(35.0, 90.0, 9000000.0);" style="cursor: pointer; cursor: hand;">Asia</a></li>
-                <li><a onclick="Zumiraj(40.0, -90.0, 9000000.0);" style="cursor: pointer; cursor: hand;">North America</a></li>
-                <li><a onclick="Zumiraj(-20.00, -60.0, 8000000.0);" style="cursor: pointer; cursor: hand;">South America</a></li>
-                <li><a onclick="Zumiraj(-22.0, 140.0, 7500000.0);" style="cursor: pointer; cursor: hand;">Australia</a></li>
+                <li><a onclick="Zumiraj(50.0, 20.0, 4500000.0);" style="cursor: pointer; cursor: pointer;">Europe</a></li>
+                <li><a onclick="Zumiraj(0.0, 20.0, 9000000.0);" style="cursor: pointer; cursor: pointer;">Africa</a></li>
+                <li><a onclick="Zumiraj(35.0, 90.0, 9000000.0);" style="cursor: pointer; cursor: pointer;">Asia</a></li>
+                <li><a onclick="Zumiraj(40.0, -90.0, 9000000.0);" style="cursor: pointer; cursor: pointer;">North America</a></li>
+                <li><a onclick="Zumiraj(-20.00, -60.0, 8000000.0);" style="cursor: pointer; cursor: pointer;">South America</a></li>
+                <li><a onclick="Zumiraj(-22.0, 140.0, 7500000.0);" style="cursor: pointer; cursor: pointer;">Australia</a></li>
                 
                 
             </ul>

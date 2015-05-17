@@ -17,9 +17,12 @@ namespace GeoQuiz.Controllers
         // GET: /Drzava/
         public ActionResult Index()
         {
+            
             var drzava = db.Drzava.Include(d => d.Kontinent);
             return View(drzava.ToList());
         }
+
+        
 
         // GET: /Drzava/Details/5
         public ActionResult Details(short? id)
