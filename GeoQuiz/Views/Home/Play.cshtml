@@ -16,7 +16,7 @@
         <div style="width: 600px; float: left;">
             <div style="height: 300px;">
                 @*@<h1 style="text-align:center" class="text-success">@ViewData.Model</h1>  *@
-                @*@Html.Action("RandomDrzava", "Home") *@
+                @*@Html.Action("RandomDrzava2", "Home") *@
                 <h1>@ViewBag.Drz</h1>
 
 
@@ -77,12 +77,12 @@
                                     // Disable caching of AJAX responses
                                     cache: false
                                 });
-                                var drz1 = "@Html.Action("RandomDrzava", "Home")";*/
+                                var drz1 = "@Html.Action("RandomDrzava2", "Home")";*/
                                 /*alert(drz1);
                                 //var drz = drz1.replace(/&amp;/g, '&');
                                 var drz = "Croatia";
                                 function NovaDrzava(){
-                                    drz1 = "@Html.Action("RandomDrzava", "Home")";
+                                    drz1 = "@Html.Action("RandomDrzava2", "Home")";
                                     //alert(drz1);*/
                                 /*    drz = drz1.replace(/&amp;/g, '&');
                                 }
@@ -91,7 +91,7 @@
                                     //alert("a");
                                     $.ajax({
                                         type: "POST",
-                                        url: '/HomeController.cs/RandomDrzava',
+                                        url: '/HomeController.cs/RandomDrzava2',
                                         data: '{id_ver: "' + id + '" }',
                                         contentType: "application/json; charset=utf-8",
                                         dataType: "json",
@@ -207,8 +207,8 @@
                 // get the data you want from the target.
                 var description = target.getDescription();
                 var tocnaDrzava = description.indexOf("=" + drz + "'");  //gdje je Niger ići će varijabla trenutna država koju ćemo izgenerirati
-                alert("=" + drz + "'");
-                alert(description);
+                //alert("=" + drz + "'");
+                //alert(description);
                 if (tocnaDrzava == -1) {
                     var boja
                     var a = boja.get(); //uzima trenutnu boju

@@ -251,7 +251,9 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Home\Instructions.cshtml" />
+    <Content Include="..\..\..\..\Desktop\PPIJ\Instructions.cshtml">
+      <Link>Views\Home\Instructions.cshtml</Link>
+    </Content>
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Kontinent\Create.cshtml" />
     <Content Include="Views\Kontinent\Delete.cshtml" />

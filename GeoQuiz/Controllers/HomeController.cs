@@ -23,7 +23,7 @@ namespace GeoQuiz.Controllers
         [HttpGet]
         public ActionResult Play()
         {
-            /* Random rand = new Random();
+            Random rand = new Random();
             List<string> drzave = new List<string>();
             drzave.Add("Croatia");
             drzave.Add("Serbia & Montenegro");
@@ -32,20 +32,20 @@ namespace GeoQuiz.Controllers
             drzave.Add("Switzerland");
             int r = rand.Next(drzave.Count);
 
-            ViewBag.ListDrzave = drzave;
+            /*ViewBag.ListDrzave = drzave;
             ViewBag.Random = ((string)drzave[r]); //OVO JE DRZAVA KOJA SE SALJE U Play.cshtml U 20. LINIJU KODA
             ViewBag.Message = "Test lista";
-            Console.WriteLine(ViewBag.Random); */
+            Console.WriteLine(ViewBag.Random); 
             var ids = from drzava in db.Drzava
                       select drzava.NazivDrzavaEng;
             List<string> drzave = new List<string>();
-            Random rand = new Random();
-            foreach (var item in ids)
+            Random rand = new Random();*/
+            /*foreach (var item in ids)
             {
                 drzave.Add(item.Trim());
 
             }
-            int r = rand.Next(drzave.Count);
+            int r = rand.Next(drzave.Count);*/
             ViewBag.Drz = ((string)drzave[r]);
 
             
@@ -56,15 +56,15 @@ namespace GeoQuiz.Controllers
         [ChildActionOnly]
         public ActionResult RandomDrzava()
         {
-            var ids = from drzava in db.Drzava
-                      select drzava.NazivDrzavaEng;
+            /*var ids = from drzava in db.Drzava
+                      select drzava.NazivDrzavaEng;*/
             List<string> drzave = new List<string>();
             Random rand = new Random();
-            foreach (var item in ids)
+            /*foreach (var item in ids)
             {
                 drzave.Add(item);
 
-            }
+            }*/
             int r = rand.Next(drzave.Count);
             string odabrana = ((string)drzave[r]);
             drzave.Remove(odabrana);
