@@ -11,6 +11,7 @@ namespace GeoQuiz.Controllers
     
     public class HomeController : Controller
     {
+        private GeoQuizEntities db = new GeoQuizEntities();
         Random rand = new Random();
         List<string> drzave = new List<string>();
         [HttpGet] 
@@ -19,12 +20,11 @@ namespace GeoQuiz.Controllers
             return View();
         }
 
-
-
         [HttpGet]
         public ActionResult Play()
         {
-            
+            /* Random rand = new Random();
+            List<string> drzave = new List<string>();
             drzave.Add("Croatia");
             drzave.Add("Serbia & Montenegro");
             drzave.Add("Bosnia & Herzegovina");
@@ -35,11 +35,41 @@ namespace GeoQuiz.Controllers
             ViewBag.ListDrzave = drzave;
             ViewBag.Random = ((string)drzave[r]); //OVO JE DRZAVA KOJA SE SALJE U Play.cshtml U 20. LINIJU KODA
             ViewBag.Message = "Test lista";
-            Console.WriteLine(ViewBag.Random);
+            Console.WriteLine(ViewBag.Random); */
+            var ids = from drzava in db.Drzava
+                      select drzava.NazivDrzavaEng;
+            List<string> drzave = new List<string>();
+            Random rand = new Random();
+            foreach (var item in ids)
+            {
+                drzave.Add(item.Trim());
 
+            }
+            int r = rand.Next(drzave.Count);
+            ViewBag.Drz = ((string)drzave[r]);
 
             
+
             return View(new CheckContinent());
+        }
+
+        [ChildActionOnly]
+        public ActionResult RandomDrzava()
+        {
+            var ids = from drzava in db.Drzava
+                      select drzava.NazivDrzavaEng;
+            List<string> drzave = new List<string>();
+            Random rand = new Random();
+            foreach (var item in ids)
+            {
+                drzave.Add(item);
+
+            }
+            int r = rand.Next(drzave.Count);
+            string odabrana = ((string)drzave[r]);
+            drzave.Remove(odabrana);
+            ViewBag.Drz = odabrana;
+            return View();
         }
 
         [HttpPost]
