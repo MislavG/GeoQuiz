@@ -100,7 +100,7 @@ namespace GeoQuiz.Controllers
             return View();
         }
         [ChildActionOnly]
-        public ActionResult RandomDrzava()
+        public ActionResult RandomDrzava2()
         {
             drzave.Add("Croatia");
             drzave.Add("Serbia & Montenegro");

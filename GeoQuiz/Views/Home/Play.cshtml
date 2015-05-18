@@ -73,18 +73,18 @@
                             <script>
                                 var drz1 = "@ViewBag.Drz";
                                 var drz = drz1.replace(/&amp;/g, '&');
-                                $.ajaxSetup({
+                                /*$.ajaxSetup({
                                     // Disable caching of AJAX responses
                                     cache: false
                                 });
-                                var drz1 = "@Html.Action("RandomDrzava", "Home")";
-                                alert(drz1);
+                                var drz1 = "@Html.Action("RandomDrzava", "Home")";*/
+                                /*alert(drz1);
                                 //var drz = drz1.replace(/&amp;/g, '&');
                                 var drz = "Croatia";
                                 function NovaDrzava(){
                                     drz1 = "@Html.Action("RandomDrzava", "Home")";
-                                    //alert(drz1);
-                                    drz = drz1.replace(/&amp;/g, '&');
+                                    //alert(drz1);*/
+                                /*    drz = drz1.replace(/&amp;/g, '&');
                                 }
 
                                 function NovaD() {
@@ -104,7 +104,7 @@
                                             $("#divResult").html("Something Wrong.");
                                         }
                                     });
-                                }
+                                }*/
 
                                 function Zumiraj(a, b, c) {
                                     setLookAt(ge, a, b, c);
@@ -213,7 +213,7 @@
                     var boja
                     var a = boja.get(); //uzima trenutnu boju
                     boja.set('EE5C42ff'); //obojaj u crveno
-                    setTimeout(function () { boja.set(a) }, 500); //nakon pola sekunde vrati boju koja je bila
+                    setTimeout(function () { boja.set(a) }, 85); //nakon 85 milisekundi vrati boju koja je bila
                 }
 
                 else {
@@ -225,7 +225,7 @@
                     target.getStyleSelector().getPolyStyle().getColor().set(a);
                 }
                 //alert(drz)
-                NovaD();
+                //NovaD();
                 //alert(drz)
 
             }
