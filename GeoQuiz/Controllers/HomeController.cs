@@ -4,12 +4,15 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using GeoQuiz.Models;
+using System.Web.UI;
 
 namespace GeoQuiz.Controllers
 {
     
     public class HomeController : Controller
     {
+        Random rand = new Random();
+        List<string> drzave = new List<string>();
         [HttpGet] 
         public ActionResult Index()
         {
@@ -21,8 +24,7 @@ namespace GeoQuiz.Controllers
         [HttpGet]
         public ActionResult Play()
         {
-            Random rand = new Random();
-            List<string> drzave = new List<string>();
+            
             drzave.Add("Croatia");
             drzave.Add("Serbia & Montenegro");
             drzave.Add("Bosnia & Herzegovina");
@@ -61,11 +63,29 @@ namespace GeoQuiz.Controllers
             return "Selected continents are: <b>" + val + "</b>";
         }
 
-        public ActionResult Contact()
+        public ActionResult Instructions()
         {
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+        [ChildActionOnly]
+        public ActionResult RandomDrzava()
+        {
+            drzave.Add("Croatia");
+            drzave.Add("Serbia & Montenegro");
+            drzave.Add("Bosnia & Herzegovina");
+            drzave.Add("Germany");
+            drzave.Add("Switzerland");
+            int r = rand.Next(drzave.Count);
+            string odabrana = ((string)drzave[r]);
+           /* ScriptManager.RegisterStartupScript(this,
+                                                        this.GetType(),
+                                                        "Funct",
+                                                        "drz = " + odabrana + ";",
+                                                        true);*/
+
+            return Content(odabrana, "text/html");
         }
     }
 }
