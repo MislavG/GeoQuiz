@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using GeoQuiz.Models;
 using System.Web.UI;
+using System.Web.Services;
 
 namespace GeoQuiz.Controllers
 {
@@ -99,14 +100,16 @@ namespace GeoQuiz.Controllers
 
             return View();
         }
-        [ChildActionOnly]
-        public ActionResult RandomDrzava2()
+        [WebMethod]
+        public string RandomDrzava2()
         {
+            List<string> drzave = new List<string>();
             drzave.Add("Croatia");
             drzave.Add("Serbia & Montenegro");
             drzave.Add("Bosnia & Herzegovina");
             drzave.Add("Germany");
             drzave.Add("Switzerland");
+            //Random rand = new Random();
             int r = rand.Next(drzave.Count);
             string odabrana = ((string)drzave[r]);
            /* ScriptManager.RegisterStartupScript(this,
@@ -115,7 +118,10 @@ namespace GeoQuiz.Controllers
                                                         "drz = " + odabrana + ";",
                                                         true);*/
 
-            return Content(odabrana, "text/html");
+            //return Content(odabrana, "text/html");
+            //return Json(odabrana, JsonRequestBehavior.AllowGet);
+            ViewBag.Drz = odabrana;
+            return odabrana;
         }
     }
 }
