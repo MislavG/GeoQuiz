@@ -14,304 +14,297 @@
     <div style="width: 100%; overflow: hidden;">
         <div style="height: 50px;"></div>
         <div style="width: 600px; float: left;">
-            <div style="height: 300px;">
-                
-                <div class="content"><h1> <span class='value'></span></h1></div>
-                @*@Html.Action("RandomDrzava2", "Home") *@
-                @*<h1>@ViewBag.Drz</h1>*@
-
-
+            <div style="height: 200px;">
+                <div class="content" align="center"><font color="1CCBA5"><h1><b><span class='value'></b></span></h1></font></div>
             </div>
             <div style="margin-left: 50px;">
 
-               
-            @using (Html.BeginForm("Show", "Home", FormMethod.Post))
-                {
-                    <b>Select continent(s): </b>
-                    var pom = 0;
-                    foreach (string con in Model.Continents)
-                    {
-                        pom = pom + 1;
-                        if (pom < 7)
+                @*@using (Html.BeginForm("Show", "Home", FormMethod.Post))
                         {
-                            <table>
-                                <tr>
-                                    <td>
+                            <b>Select continent(s): </b>
+                            var pom = 0;
+                            foreach (string con in Model.Continents)
+                            {
+                                pom = pom + 1;
+                                if (pom < 7)
+                                {
+                                    <table>
+                                        <tr>
+                                            <td>
 
-                                        @Html.CheckBox(con) @con
-                                    </td>
-                                </tr>
-                            </table>
-                        }
-                        else
-                        {
-                            <b>Or: </b>
-                            <table>
-                                <tr>
-                                    <td>
-                                        @Html.CheckBox(con) @con
-                                    </td>
-                                </tr>
-                            </table>
-                        }
-
-                    }
-
-            <input type="submit" value="Save" />
-            }               
-                        <h3>Statistic</h3>
-                        <h4>Score:</h4>
-                        <h4>Correct answers:</h4>
-                        <h4>Incorrect answers:</h4>
-                
-                    </div>
-                </div>
-                <div style="margin-left: 620px;">
-                    <div align="right" id="map3d"
-                         style="height: 600px;
-                      width: 900px;">
-                        <h2>
-                            
-                            <script type="text/javascript">
-                                //var drz1 = "@ViewBag.Drz";
-                                //var drz = drz1.replace(/&amp;/g, '&');
-                                $.ajaxSetup({
-                                    // Disable caching of AJAX responses
-                                    cache: false,
-                                    error: function(jqXHR, exception) {
-                                    if (jqXHR.status === 0) {
-                                        alert('Not connect.\n Verify Network.');
-                                    } else if (jqXHR.status == 404) {
-                                        alert('Requested page not found. [404]');
-                                    } else if (exception === 'parsererror') {
-                                        alert('Requested JSON parse failed.');
-                                    } else if (exception === 'timeout') {
-                                        alert('Time out error.');
-                                    } else if (exception === 'abort') {
-                                        alert('Ajax request aborted.');
-                                    } else if (jqXHR.status == 500) {
-                                        alert('Internal Server Error [500].');
-                                    } else {
-                                        alert('Uncaught Error.\n' + jqXHR.responseText);
-                                    }
-                                    }
-                                });
-                                //var drz1 = "Html.Action("RandomDrzava2", "Home")";*/
-                                /*alert(drz1);
-                                //var drz = drz1.replace(/&amp;/g, '&');
-                                var drz = "Croatia";
-                                function NovaDrzava(){
-                                    drz1 = "Html.Action("RandomDrzava2", "Home")";
-                                    //alert(drz1);*/
-                                /*    drz = drz1.replace(/&amp;/g, '&');
-                                }*/
-
-                                var MyAppUrlSettings = {
-                                    MyUsefulUrl: '@Url.Action("RandomDrzava2","Home")'
+                                                @Html.CheckBox(con) @con
+                                            </td>
+                                        </tr>
+                                    </table>
+                                }
+                                else
+                                {
+                                    <b>Or: </b>
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                @Html.CheckBox(con) @con
+                                            </td>
+                                        </tr>
+                                    </table>
                                 }
 
-                                function NovaD() {
-                                    //alert(MyAppUrlSettings.MyUsefulUrl);
+                            }
 
-                                    //alert("a");
-                                    var abc=$.ajax({
-                                        type: "POST",
-                                        url: MyAppUrlSettings.MyUsefulUrl,
-                                        data: {},
-                                        async: false,
-                                        error: function (msg) {
-                                            //alert(msg);
-                                            callback(msg);},
-                                        success: function (msg) {
-                                            //alert(msg);
-                                            drz1 = msg;
-                                            $("#divResult").html("success");
-                                        },
-                                        
-                                    });
-                                    //alert(drz1);
-                                    drz = drz1.replace(/&amp;/g, '&');
-                                }
-
-                                drz1 = "drzava";
-                                drz = drz1.replace(/&amp;/g, '&');
-                                $(".content .value").html(drz);
-
-                                function Zumiraj(a, b, c) {
-                                    setLookAt(ge, a, b, c);
-                                }
+                    <input type="submit" value="Save" />
+                    } *@
+                <div class="content"><h3><b>Score:</b>    <span class='scor'></span></h3></div>
+                <div class="content"><h3><b>Correct answers:</b>    <span class='toc'></span></h3></div>
+                <div class="content"><h3><b>Incorrect answers:</b>   <span class='netoc'></span></h3></div>
 
 
-                    
-                        /*$(document).ready(function () {
-
-                            $('#mpvalue').autocomplete({
-                                source: 'Url.Action("RandomDrzava2")'
-                            });
-
-                        });*/
-                        var ge;
-    google.load("earth", "1",{ "other_params": "sensor=false" });
-    google.setOnLoadCallback(init);
-    
-
-    function init() {
-        google.earth.createInstance('map3d', initCB, failureCB);
-        
-    }
-
-    //inicijaliziranje
-    function initCB(instance) {
-        ge = instance;
-        ge.getWindow().setVisibility(true);
-        ge.getLayerRoot().enableLayerById(ge.LAYER_BORDERS, false);
-        // Get the current view - which is America view by default
-        
-
-        //loadanje KML-a
-        var kmlUrl = 'https://sites.google.com/site/mislavsite/countries_world-kml/doc3.kml?attredirects=0&d=1';
-        addKmlFromUrl(kmlUrl);
-
-
-        //rotacija
-        /*var oldFlyToSpeed = ge.getOptions().getFlyToSpeed();
-        ge.getOptions().setFlyToSpeed(ge.SPEED_TELEPORT);
-
-        function go(count) {
-            var lookAt = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
-            lookAt.setLongitude(lookAt.getLongitude() + 1);
-            //lookAt.setRange(17000000.0);
-            ge.getView().setAbstractView(lookAt);
-
-            if (count > 0) {
-                setTimeout(function () {
-                    go(count + 1);
-                }, 50);
-            } else {
-                ge.getOptions().setFlyToSpeed(oldFlyToSpeed);
-            }
-        }
-
-        go(2); */
-
-
-
-        function addKmlFromUrl(kmlUrl) {
-            google.earth.fetchKml(ge, kmlUrl, kmlFinishedLoading);
-        }
-
-        function kmlFinishedLoading(kmlObject) {
-            if (kmlObject) {
-                ge.getFeatures().appendChild(kmlObject);
-            }
-        }
-
-        function kmlFinishedLoading(kmlObject) {
-            if (kmlObject) {
-                // check if the object is a KmlContainer (folder or document)
-                if ('getFeatures' in kmlObject) {
-                    var firstChild = kmlObject.getFeatures().getFirstChild();
-                    if (firstChild !== null) {
-                        kmlObject.getFeatures().removeChild(firstChild);
-                    }
-                }
-
-                ge.getFeatures().appendChild(kmlObject);
-            }
-        }
-
-        //sprijecanje balona
-        google.earth.addEventListener(ge.getGlobe(), 'click', popupPrevent); //sprijecavanje balona nakon klika
-
-        function popupPrevent(event) {
-            event.preventDefault();
-        }
-
-        //double-click oznacavanje konacnog odgovora (drzave)
-        //google.earth.addEventListener(ge.getGlobe(), 'dblclick', popupPrevent);
-
-        //var drz = "@ViewBag.Drz";
-
-        google.earth.addEventListener(ge.getGlobe(), 'dblclick', recordEvent); //sprijecavanje balona nakon klika
-        
-        function recordEvent(event) {
-            //alert("@ViewBag.Drz");
-            //drz1 = msg;
-            //drz = drz1.replace(/&amp;/g, '&');
-            //alert(drz);
-            event.preventDefault();
-            var target = event.getTarget();
-            var type = target.getType();
-            var boja = target.getStyleSelector().getPolyStyle().getColor();
-            if (type == "KmlPlacemark") {
-                
-                // get the data you want from the target.
-                var description = target.getDescription();
-                var tocnaDrzava = description.indexOf("=" + drz + "'");  //gdje je Niger ići će varijabla trenutna država koju ćemo izgenerirati
-                //alert("=" + drz + "'");
-                //alert(description);
-                if (tocnaDrzava == -1) {
-                    var boja
-                    var a = boja.get(); //uzima trenutnu boju
-                    boja.set('EE5C42ff'); //obojaj u crveno
-                    setTimeout(function () { boja.set(a) }, 85); //nakon 85 milisekundi vrati boju koja je bila
-                }
-
-                else {
-                    target.getStyleSelector().getPolyStyle().getColor().set('ff6d9600');
-                }
-                //STAVIT METODU UPDATEDISPLAY();
-
-                function vratiBoju() {
-                    target.getStyleSelector().getPolyStyle().getColor().set(a);
-                }
-                //alert(drz)
-                NovaD();
-                //alert(drz)
-                $(".content .value").html(drz);
-
-            }
-        }
-
-        google.earth.addEventListener(ge.getWindow(), 'dblclick', function
-        (event) {
-            event.preventDefault();
-        });
-    }
-
-//funkcija za podesavanje pogleda na kontinente
-    function setLookAt(ge, latitude, longitude, range) {
-        var lookAt = ge.createLookAt('');
-        lookAt.setLatitude(latitude);
-        lookAt.setLongitude(longitude);
-        lookAt.setRange(range);
-        ge.getView().setAbstractView(lookAt);
-    }
-
-    function failureCB(errorCode) {
-    }
-    google.setOnLoadCallback(init);
-        </script>
-    </h2>
-</div>
-<div class="navbar navbar-default" style="width: 900px;">
-    <div class="container">
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li><a onclick="Zumiraj(50.0, 20.0, 4500000.0);" style="cursor: pointer; cursor: pointer;">Europe</a></li>
-                <li><a onclick="Zumiraj(0.0, 20.0, 9000000.0);" style="cursor: pointer; cursor: pointer;">Africa</a></li>
-                <li><a onclick="Zumiraj(35.0, 90.0, 9000000.0);" style="cursor: pointer; cursor: pointer;">Asia</a></li>
-                <li><a onclick="Zumiraj(40.0, -90.0, 9000000.0);" style="cursor: pointer; cursor: pointer;">North America</a></li>
-                <li><a onclick="Zumiraj(-20.00, -60.0, 8000000.0);" style="cursor: pointer; cursor: pointer;">South America</a></li>
-                <li><a onclick="Zumiraj(-22.0, 140.0, 7500000.0);" style="cursor: pointer; cursor: pointer;">Australia</a></li>
-                
-                
-            </ul>
+            </div>
         </div>
+        <div style="margin-left: 620px;">
+            <div align="right" id="map3d"
+                 style="height: 600px;
+                      width: 900px;">
+                <h2>
 
+                    <script type="text/javascript">
+                        $.ajaxSetup({
+                            // Disable caching of AJAX responses
+                            cache: false,
+                            error: function (jqXHR, exception) {
+                                if (jqXHR.status === 0) {
+                                    alert('Not connect.\n Verify Network.');
+                                } else if (jqXHR.status == 404) {
+                                    alert('Requested page not found. [404]');
+                                } else if (exception === 'parsererror') {
+                                    alert('Requested JSON parse failed.');
+                                } else if (exception === 'timeout') {
+                                    alert('Time out error.');
+                                } else if (exception === 'abort') {
+                                    alert('Ajax request aborted.');
+                                } else if (jqXHR.status == 500) {
+                                    alert('Internal Server Error [500].');
+                                } else {
+                                    alert('Uncaught Error.\n' + jqXHR.responseText);
+                                }
+                            }
+                        });
+
+                        var MyAppUrlSettings = {
+                            MyUsefulUrl: '@Url.Action("RandomDrzava2","Home")'
+                        }
+
+                        function NovaD() {
+                            //alert(MyAppUrlSettings.MyUsefulUrl);
+
+                            //alert("a");
+                            var abc = $.ajax({
+                                type: "POST",
+                                url: MyAppUrlSettings.MyUsefulUrl,
+                                data: {},
+                                async: false,
+                                error: function (msg) {
+                                    callback(msg);
+                                },
+                                success: function (msg) {
+                                    drz1 = msg;
+                                    $("#divResult").html("success");
+                                },
+
+                            });
+                            drz = drz1.replace(/&amp;/g, '&');
+                            $(".content .value").html(drz);
+                        }
+
+                        function Zumiraj(a, b, c) {
+                            setLookAt(ge, a, b, c);
+                        }
+                        var igra = 0;
+                        var brTocnih = 0;
+                        var brNetocnih = 0;
+                        var Score = 0;
+                        $(".content .toc").html(brTocnih);
+                        $(".content .netoc").html(brNetocnih);
+                        $(".content .scor").html(Score);
+                        NovaD();
+
+                        function NovaIgra() {
+                            brTocnih = 0;
+                            brNetocnih = 0;
+                            Score = 0;
+                            igra = 1;
+                            $(".content .toc").html(brTocnih);
+                            $(".content .netoc").html(brNetocnih);
+                            $(".content .scor").html(Score);
+                            //google.load("earth", "1", { "other_params": "sensor=false" });
+                            //addKmlFromUrl(kmlUrl);
+                        }
+
+                        var ge;
+                        google.load("earth", "1", { "other_params": "sensor=false" });
+                        google.setOnLoadCallback(init);
+
+
+                        function init() {
+                            google.earth.createInstance('map3d', initCB, failureCB);
+
+                        }
+
+                        //inicijaliziranje
+                        function initCB(instance) {
+                            ge = instance;
+                            ge.getWindow().setVisibility(true);
+                            ge.getLayerRoot().enableLayerById(ge.LAYER_BORDERS, false);
+                            // Get the current view - which is America view by default
+
+
+                            //loadanje KML-a
+                            var kmlUrl = 'https://sites.google.com/site/mislavsite/countries_world-kml/doc3.kml?attredirects=0&d=1';
+                            addKmlFromUrl(kmlUrl);
+
+
+                            //rotacija
+                            /*var oldFlyToSpeed = ge.getOptions().getFlyToSpeed();
+                            ge.getOptions().setFlyToSpeed(ge.SPEED_TELEPORT);
+
+                            function go(count) {
+                                var lookAt = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
+                                lookAt.setLongitude(lookAt.getLongitude() + 1);
+                                //lookAt.setRange(17000000.0);
+                                ge.getView().setAbstractView(lookAt);
+
+                                if (count > 0) {
+                                    setTimeout(function () {
+                                        go(count + 1);
+                                    }, 50);
+                                } else {
+                                    ge.getOptions().setFlyToSpeed(oldFlyToSpeed);
+                                }
+                            }
+
+                            go(2); */
+
+
+
+                            function addKmlFromUrl(kmlUrl) {
+                                google.earth.fetchKml(ge, kmlUrl, kmlFinishedLoading);
+                            }
+
+                            function kmlFinishedLoading(kmlObject) {
+                                if (kmlObject) {
+                                    ge.getFeatures().appendChild(kmlObject);
+                                }
+                            }
+
+                            function kmlFinishedLoading(kmlObject) {
+                                if (kmlObject) {
+                                    // check if the object is a KmlContainer (folder or document)
+                                    if ('getFeatures' in kmlObject) {
+                                        var firstChild = kmlObject.getFeatures().getFirstChild();
+                                        if (firstChild !== null) {
+                                            kmlObject.getFeatures().removeChild(firstChild);
+                                        }
+                                    }
+
+                                    ge.getFeatures().appendChild(kmlObject);
+                                }
+                            }
+
+                            //sprijecanje balona
+                            google.earth.addEventListener(ge.getGlobe(), 'click', popupPrevent); //sprijecavanje balona nakon klika
+
+                            function popupPrevent(event) {
+                                event.preventDefault();
+                            }
+
+                            //double-click oznacavanje konacnog odgovora (drzave)
+                            //google.earth.addEventListener(ge.getGlobe(), 'dblclick', popupPrevent);
+
+                            google.earth.addEventListener(ge.getGlobe(), 'dblclick', recordEvent); //sprijecavanje balona nakon klika
+
+                            var brTocnih = 0;
+                            var brNetocnih = 0;
+                            $(".content .toc").html(brTocnih);
+                            $(".content .netoc").html(brNetocnih);
+                            $(".content .scor").html(Score);
+                            NovaD();
+                            function recordEvent(event) {
+                                if (igra == 1) {
+                                    event.preventDefault();
+                                    var target = event.getTarget();
+                                    var type = target.getType();
+                                    var boja = target.getStyleSelector().getPolyStyle().getColor();
+                                    if (type == "KmlPlacemark") {
+
+                                        // get the data you want from the target.
+                                        var description = target.getDescription();
+                                        var tocnaDrzava = description.indexOf("=" + drz + "'");  //gdje je Niger ići će varijabla trenutna država koju ćemo izgenerirati
+                                        if (tocnaDrzava == -1 && igra == 1) {
+                                            brNetocnih = brNetocnih + 1;
+                                            if (Score >= 5)
+                                                Score = Score - 5;
+                                            var boja;
+                                            var a = boja.get(); //uzima trenutnu boju
+                                            boja.set('EE5C42ff'); //obojaj u crveno
+                                            setTimeout(function () { boja.set(a) }, 85); //nakon 85 milisekundi vrati boju koja je bila
+                                        }
+
+                                        else if (tocnaDrzava != -1 && igra == 1) {
+                                            brTocnih = brTocnih + 1;
+                                            Score = Score + 10;
+                                            target.getStyleSelector().getPolyStyle().getColor().set('ff6d9600');
+                                        }
+                                        //STAVIT METODU UPDATEDISPLAY();
+
+                                        if (igra == 1)
+                                            NovaD();
+                                        $(".content .value").html(drz);
+                                        $(".content .toc").html(brTocnih);
+                                        $(".content .netoc").html(brNetocnih);
+                                        $(".content .scor").html(Score);
+
+                                    }
+                                }
+                            }
+
+                            google.earth.addEventListener(ge.getWindow(), 'dblclick', function
+        (event) {
+                                event.preventDefault();
+                            });
+                        }
+
+                        //funkcija za podesavanje pogleda na kontinente
+                        function setLookAt(ge, latitude, longitude, range) {
+                            var lookAt = ge.createLookAt('');
+                            lookAt.setLatitude(latitude);
+                            lookAt.setLongitude(longitude);
+                            lookAt.setRange(range);
+                            ge.getView().setAbstractView(lookAt);
+                        }
+
+                        function failureCB(errorCode) {
+                        }
+                        google.setOnLoadCallback(init);
+                    </script>
+                </h2>
+            </div>
+            <div class="navbar navbar-default" style="width: 900px;">
+                <div class="container">
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a onclick="Zumiraj(50.0, 20.0, 4500000.0);" style="cursor: pointer; cursor: pointer;">Europe</a></li>
+                            <li><a onclick="Zumiraj(0.0, 20.0, 9000000.0);" style="cursor: pointer; cursor: pointer;">Africa</a></li>
+                            <li><a onclick="Zumiraj(35.0, 90.0, 9000000.0);" style="cursor: pointer; cursor: pointer;">Asia</a></li>
+                            <li><a onclick="Zumiraj(40.0, -90.0, 9000000.0);" style="cursor: pointer; cursor: pointer;">North America</a></li>
+                            <li><a onclick="Zumiraj(-20.00, -60.0, 8000000.0);" style="cursor: pointer; cursor: pointer;">South America</a></li>
+                            <li><a onclick="Zumiraj(-22.0, 140.0, 7500000.0);" style="cursor: pointer; cursor: pointer;">Australia</a></li>
+                            <li>                                                          </li>
+                            <li><a onclick="NovaIgra();" style="cursor: pointer; cursor: pointer;">New Game</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-</div>
-</div>
 </body>
 </html>
