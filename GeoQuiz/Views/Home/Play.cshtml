@@ -157,7 +157,7 @@
                             var dt = nowTs - lastFrameTs; //delta time
                             lastFrameTs = nowTs;
                             var lookAt = ge.getView().copyAsLookAt(ge.ALTITUDE_ABSOLUTE);
-                            var distance = dt * (speed / 1000); //distance to rotate
+                            var distance = dt * (speed / 2000); //distance to rotate
                             var newLongitude = lookAt.getLongitude() - distance;
                             lookAt.setLongitude(newLongitude);
                             ge.getView().setAbstractView(lookAt);
@@ -313,7 +313,6 @@
                 <div class="container">
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
-                            
                             <li><a onclick="Zumiraj(50.0, 20.0, 4500000.0);" style="cursor: pointer; cursor: pointer;">Europe</a></li>
                             <li><a onclick="Zumiraj(0.0, 20.0, 9000000.0);" style="cursor: pointer; cursor: pointer;">Africa</a></li>
                             <li><a onclick="Zumiraj(35.0, 90.0, 9000000.0);" style="cursor: pointer; cursor: pointer;">Asia</a></li>
