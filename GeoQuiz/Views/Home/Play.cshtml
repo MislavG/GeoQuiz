@@ -144,7 +144,7 @@
                         $(".content .netoc").html(brNetocnih);
                         $(".content .scor").html(Score);
 
-                        
+
 
                         var ge;
                         google.load("earth", "1", { "other_params": "sensor=false" });
@@ -154,6 +154,20 @@
                         function init() {
                             google.earth.createInstance('map3d', initCB, failureCB);
 
+                        }
+
+                        //rotacija
+                        speed = 4; // degrees/second
+                        lastFrameTs = (new Date()).getTime(); //last frame's timestamp
+                        function spin() {
+                            var nowTs = (new Date()).getTime();  //currrent timestamp
+                            var dt = nowTs - lastFrameTs; //delta time
+                            lastFrameTs = nowTs;
+                            var lookAt = ge.getView().copyAsLookAt(ge.ALTITUDE_ABSOLUTE);
+                            var distance = dt * (speed / 2000); //distance to rotate
+                            var newLongitude = lookAt.getLongitude() - distance;
+                            lookAt.setLongitude(newLongitude);
+                            ge.getView().setAbstractView(lookAt);
                         }
 
                         //inicijaliziranje
@@ -169,7 +183,11 @@
                             //loadanje KML-a
                             
 
+                            ge.getOptions().setFlyToSpeed(ge.SPEED_TELEPORT);
+                            google.earth.addEventListener(ge, "frameend", spin);
 
+
+                            spin();
                             //rotacija
                             /*var oldFlyToSpeed = ge.getOptions().getFlyToSpeed();
                             ge.getOptions().setFlyToSpeed(ge.SPEED_TELEPORT);
@@ -194,79 +212,79 @@
                         }
                         var kmlUrl = 'https://sites.google.com/site/mislavsite/countries_world-kml/doc3.kml?attredirects=0&d=1';
 
-                        function addKmlFromUrl(kmlUrl) {
+                            function addKmlFromUrl(kmlUrl) {
                             kmlPostoji = 1;
-                            google.earth.fetchKml(ge, kmlUrl, kmlFinishedLoading);
+                                google.earth.fetchKml(ge, kmlUrl, kmlFinishedLoading);
                             }
 
-                        function kmlFinishedLoading(kmlObject) {
-                            if (kmlObject) {
+                            function kmlFinishedLoading(kmlObject) {
+                                if (kmlObject) {
                                 alert("postoji");
                                 kmlPostoji = 1;
-                                ge.getFeatures().appendChild(kmlObject);
-                            }
-                        }
-
-                        function kmlFinishedLoading(kmlObject) {
-                            if (kmlObject) {
-                                // check if the object is a KmlContainer (folder or document)
-                                if ('getFeatures' in kmlObject) {
-                                    var firstChild = kmlObject.getFeatures().getFirstChild();
-                                    if (firstChild !== null) {
-                                        kmlObject.getFeatures().removeChild(firstChild);
-                                    }
+                                    ge.getFeatures().appendChild(kmlObject);
                                 }
-
-                                ge.getFeatures().appendChild(kmlObject);
                             }
-                        }
 
-                        //sprijecanje balona
-                        function popupPrevent(event) {
-                            event.preventDefault();
-                        }
+                            function kmlFinishedLoading(kmlObject) {
+                                if (kmlObject) {
+                                    // check if the object is a KmlContainer (folder or document)
+                                    if ('getFeatures' in kmlObject) {
+                                        var firstChild = kmlObject.getFeatures().getFirstChild();
+                                        if (firstChild !== null) {
+                                            kmlObject.getFeatures().removeChild(firstChild);
+                                        }
+                                    }
 
-                        //double-click oznacavanje konacnog odgovora (drzave)
+                                    ge.getFeatures().appendChild(kmlObject);
+                                }
+                            }
+
+                            //sprijecanje balona
+                            function popupPrevent(event) {
+                                event.preventDefault();
+                            }
+
+                            //double-click oznacavanje konacnog odgovora (drzave)
 
                         drz = "Press New Game to play";
                         $(".content .value").html(drz);
 
-                        function recordEvent(event) {
-                            event.preventDefault();
+                            function recordEvent(event) {
+                                    event.preventDefault();
                             if (igra == 1) {
-                                var target = event.getTarget();
-                                var type = target.getType();
-                                var boja = target.getStyleSelector().getPolyStyle().getColor();
-                                if (type == "KmlPlacemark") {
+                                    var target = event.getTarget();
+                                    var type = target.getType();
+                                    var boja = target.getStyleSelector().getPolyStyle().getColor();
+                                    if (type == "KmlPlacemark") {
 
-                                    // get the data you want from the target.
-                                    var description = target.getDescription();
-                                    var tocnaDrzava = description.indexOf("=" + drz + "'");  //gdje je Niger ići će varijabla trenutna država koju ćemo izgenerirati
+                                        // get the data you want from the target.
+                                        var description = target.getDescription();
+                                        var tocnaDrzava = description.indexOf("=" + drz + "'");  //gdje je Niger ići će varijabla trenutna država koju ćemo izgenerirati
                                     if (tocnaDrzava == -1) {
-                                        brNetocnih = brNetocnih + 1;
-                                        if (Score >= 5)
-                                            Score = Score - 5;
-                                        var boja;
-                                        var a = boja.get(); //uzima trenutnu boju
-                                        boja.set('EE5C42ff'); //obojaj u crveno
-                                        setTimeout(function () { boja.set(a) }, 85); //nakon 85 milisekundi vrati boju koja je bila
-                                    }
+                                            brNetocnih = brNetocnih + 1;
+                                            if (Score >= 5)
+                                                Score = Score - 5;
+                                            var boja;
+                                            var a = boja.get(); //uzima trenutnu boju
+                                            boja.set('EE5C42ff'); //obojaj u crveno
+                                            setTimeout(function () { boja.set(a) }, 85); //nakon 85 milisekundi vrati boju koja je bila
+                                        }
 
                                     else if (tocnaDrzava != -1) {
-                                        brTocnih = brTocnih + 1;
-                                        Score = Score + 10;
-                                        target.getStyleSelector().getPolyStyle().getColor().set('ff6d9600');
+                                            brTocnih = brTocnih + 1;
+                                            Score = Score + 10;
+                                            target.getStyleSelector().getPolyStyle().getColor().set('ff6d9600');
+                                        }
+                                        //STAVIT METODU UPDATEDISPLAY();
+
+                                            NovaD();
+                                        $(".content .value").html(drz);
+                                        $(".content .toc").html(brTocnih);
+                                        $(".content .netoc").html(brNetocnih);
+                                        $(".content .scor").html(Score);
+
                                     }
-                                    //STAVIT METODU UPDATEDISPLAY();
-
-                                    NovaD();
-                                    $(".content .value").html(drz);
-                                    $(".content .toc").html(brTocnih);
-                                    $(".content .netoc").html(brNetocnih);
-                                    $(".content .scor").html(Score);
-
                                 }
-                            }
                         }
 
                         //funkcija za podesavanje pogleda na kontinente
@@ -276,6 +294,10 @@
                             lookAt.setLongitude(longitude);
                             lookAt.setRange(range);
                             ge.getView().setAbstractView(lookAt);
+                        }
+                        //kraj rotacije
+                        function stop() {
+                            google.earth.removeEventListener(ge, "frameend", spin);
                         }
 
                         function failureCB(errorCode) {
