@@ -15,7 +15,7 @@
         <div style="height: 50px;"></div>
         <div style="width: 600px; float: left;">
             <div style="height: 200px;">
-                <div class="content" align="center"><font color="1CCBA5"><h1><b><span class='value'></b></span></h1></font></div>
+                <div class="content" align="center"><font color="1CCBA5"><h1><b><span class='value'></span></b></h1></font></div>
             </div>
             <div style="margin-left: 50px;">
 
@@ -149,6 +149,20 @@
 
                         }
 
+                        //rotacija
+                        speed = 4; // degrees/second
+                        lastFrameTs = (new Date()).getTime(); //last frame's timestamp
+                        function spin() {
+                            var nowTs = (new Date()).getTime();  //currrent timestamp
+                            var dt = nowTs - lastFrameTs; //delta time
+                            lastFrameTs = nowTs;
+                            var lookAt = ge.getView().copyAsLookAt(ge.ALTITUDE_ABSOLUTE);
+                            var distance = dt * (speed / 1000); //distance to rotate
+                            var newLongitude = lookAt.getLongitude() - distance;
+                            lookAt.setLongitude(newLongitude);
+                            ge.getView().setAbstractView(lookAt);
+                        }
+
                         //inicijaliziranje
                         function initCB(instance) {
                             ge = instance;
@@ -161,7 +175,11 @@
                             var kmlUrl = 'https://sites.google.com/site/mislavsite/countries_world-kml/doc3.kml?attredirects=0&d=1';
                             addKmlFromUrl(kmlUrl);
 
+                            ge.getOptions().setFlyToSpeed(ge.SPEED_TELEPORT);
+                            google.earth.addEventListener(ge, "frameend", spin);
 
+
+                            spin();
                             //rotacija
                             /*var oldFlyToSpeed = ge.getOptions().getFlyToSpeed();
                             ge.getOptions().setFlyToSpeed(ge.SPEED_TELEPORT);
@@ -280,6 +298,10 @@
                             lookAt.setRange(range);
                             ge.getView().setAbstractView(lookAt);
                         }
+                        //kraj rotacije
+                        function stop() {
+                            google.earth.removeEventListener(ge, "frameend", spin);
+                        }
 
                         function failureCB(errorCode) {
                         }
@@ -291,6 +313,7 @@
                 <div class="container">
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
+                            
                             <li><a onclick="Zumiraj(50.0, 20.0, 4500000.0);" style="cursor: pointer; cursor: pointer;">Europe</a></li>
                             <li><a onclick="Zumiraj(0.0, 20.0, 9000000.0);" style="cursor: pointer; cursor: pointer;">Africa</a></li>
                             <li><a onclick="Zumiraj(35.0, 90.0, 9000000.0);" style="cursor: pointer; cursor: pointer;">Asia</a></li>
@@ -298,7 +321,7 @@
                             <li><a onclick="Zumiraj(-20.00, -60.0, 8000000.0);" style="cursor: pointer; cursor: pointer;">South America</a></li>
                             <li><a onclick="Zumiraj(-22.0, 140.0, 7500000.0);" style="cursor: pointer; cursor: pointer;">Australia</a></li>
                             <li>                                                          </li>
-                            <li><a onclick="NovaIgra();" style="cursor: pointer; cursor: pointer;">New Game</a></li>
+                            <li><a onclick="NovaIgra(); stop();" style="cursor: pointer; cursor: pointer;">New Game</a></li>
                         </ul>
                     </div>
 
