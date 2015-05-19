@@ -15,7 +15,7 @@
         <div style="height: 50px;"></div>
         <div style="width: 600px; float: left;">
             <div style="height: 200px;">
-                <div class="content" align="center"><font color="1CCBA5"><h1><b><span class='value'></b></span></h1></font></div>
+                <div class="content" align="center"><font color="1CCBA5"><h1><b><span class='value'></span></b></h1></font></div>
             </div>
             <div style="margin-left: 50px;">
 
@@ -115,9 +115,27 @@
                             $(".content .value").html(drz);
                         }
 
+                        function NovaIgra() {
+                            brTocnih = 0;
+                            brNetocnih = 0;
+                            Score = 0;
+                            igra = 1;
+                            NovaD();
+                            $(".content .toc").html(brTocnih);
+                            $(".content .netoc").html(brNetocnih);
+                            $(".content .scor").html(Score);
+                            $(".content .value").html(drz);
+                            if (kmlPostoji == 1) {
+                                ge.getFeatures().removeChild(ge.getFeatures().getLastChild());
+                                kmlPostoji = 0;
+                            }
+                            addKmlFromUrl(kmlUrl);
+                        }
+
                         function Zumiraj(a, b, c) {
                             setLookAt(ge, a, b, c);
                         }
+
                         var igra = 0;
                         var brTocnih = 0;
                         var brNetocnih = 0;
@@ -125,19 +143,8 @@
                         $(".content .toc").html(brTocnih);
                         $(".content .netoc").html(brNetocnih);
                         $(".content .scor").html(Score);
-                        NovaD();
 
-                        function NovaIgra() {
-                            brTocnih = 0;
-                            brNetocnih = 0;
-                            Score = 0;
-                            igra = 1;
-                            $(".content .toc").html(brTocnih);
-                            $(".content .netoc").html(brNetocnih);
-                            $(".content .scor").html(Score);
-                            //google.load("earth", "1", { "other_params": "sensor=false" });
-                            //addKmlFromUrl(kmlUrl);
-                        }
+                        
 
                         var ge;
                         google.load("earth", "1", { "other_params": "sensor=false" });
@@ -155,11 +162,12 @@
                             ge.getWindow().setVisibility(true);
                             ge.getLayerRoot().enableLayerById(ge.LAYER_BORDERS, false);
                             // Get the current view - which is America view by default
-
+                            google.earth.addEventListener(ge.getGlobe(), 'click', popupPrevent); //sprijecavanje balona nakon klika
+                            google.earth.addEventListener(ge.getGlobe(), 'dblclick', recordEvent); //sprijecavanje balona nakon klika
+                            kmlPostoji = 0;
 
                             //loadanje KML-a
-                            var kmlUrl = 'https://sites.google.com/site/mislavsite/countries_world-kml/doc3.kml?attredirects=0&d=1';
-                            addKmlFromUrl(kmlUrl);
+                            
 
 
                             //rotacija
@@ -183,93 +191,82 @@
 
                             go(2); */
 
+                        }
+                        var kmlUrl = 'https://sites.google.com/site/mislavsite/countries_world-kml/doc3.kml?attredirects=0&d=1';
 
-
-                            function addKmlFromUrl(kmlUrl) {
-                                google.earth.fetchKml(ge, kmlUrl, kmlFinishedLoading);
+                        function addKmlFromUrl(kmlUrl) {
+                            kmlPostoji = 1;
+                            google.earth.fetchKml(ge, kmlUrl, kmlFinishedLoading);
                             }
 
-                            function kmlFinishedLoading(kmlObject) {
-                                if (kmlObject) {
-                                    ge.getFeatures().appendChild(kmlObject);
-                                }
+                        function kmlFinishedLoading(kmlObject) {
+                            if (kmlObject) {
+                                alert("postoji");
+                                kmlPostoji = 1;
+                                ge.getFeatures().appendChild(kmlObject);
                             }
+                        }
 
-                            function kmlFinishedLoading(kmlObject) {
-                                if (kmlObject) {
-                                    // check if the object is a KmlContainer (folder or document)
-                                    if ('getFeatures' in kmlObject) {
-                                        var firstChild = kmlObject.getFeatures().getFirstChild();
-                                        if (firstChild !== null) {
-                                            kmlObject.getFeatures().removeChild(firstChild);
-                                        }
-                                    }
-
-                                    ge.getFeatures().appendChild(kmlObject);
-                                }
-                            }
-
-                            //sprijecanje balona
-                            google.earth.addEventListener(ge.getGlobe(), 'click', popupPrevent); //sprijecavanje balona nakon klika
-
-                            function popupPrevent(event) {
-                                event.preventDefault();
-                            }
-
-                            //double-click oznacavanje konacnog odgovora (drzave)
-                            //google.earth.addEventListener(ge.getGlobe(), 'dblclick', popupPrevent);
-
-                            google.earth.addEventListener(ge.getGlobe(), 'dblclick', recordEvent); //sprijecavanje balona nakon klika
-
-                            var brTocnih = 0;
-                            var brNetocnih = 0;
-                            $(".content .toc").html(brTocnih);
-                            $(".content .netoc").html(brNetocnih);
-                            $(".content .scor").html(Score);
-                            NovaD();
-                            function recordEvent(event) {
-                                if (igra == 1) {
-                                    event.preventDefault();
-                                    var target = event.getTarget();
-                                    var type = target.getType();
-                                    var boja = target.getStyleSelector().getPolyStyle().getColor();
-                                    if (type == "KmlPlacemark") {
-
-                                        // get the data you want from the target.
-                                        var description = target.getDescription();
-                                        var tocnaDrzava = description.indexOf("=" + drz + "'");  //gdje je Niger ići će varijabla trenutna država koju ćemo izgenerirati
-                                        if (tocnaDrzava == -1 && igra == 1) {
-                                            brNetocnih = brNetocnih + 1;
-                                            if (Score >= 5)
-                                                Score = Score - 5;
-                                            var boja;
-                                            var a = boja.get(); //uzima trenutnu boju
-                                            boja.set('EE5C42ff'); //obojaj u crveno
-                                            setTimeout(function () { boja.set(a) }, 85); //nakon 85 milisekundi vrati boju koja je bila
-                                        }
-
-                                        else if (tocnaDrzava != -1 && igra == 1) {
-                                            brTocnih = brTocnih + 1;
-                                            Score = Score + 10;
-                                            target.getStyleSelector().getPolyStyle().getColor().set('ff6d9600');
-                                        }
-                                        //STAVIT METODU UPDATEDISPLAY();
-
-                                        if (igra == 1)
-                                            NovaD();
-                                        $(".content .value").html(drz);
-                                        $(".content .toc").html(brTocnih);
-                                        $(".content .netoc").html(brNetocnih);
-                                        $(".content .scor").html(Score);
-
+                        function kmlFinishedLoading(kmlObject) {
+                            if (kmlObject) {
+                                // check if the object is a KmlContainer (folder or document)
+                                if ('getFeatures' in kmlObject) {
+                                    var firstChild = kmlObject.getFeatures().getFirstChild();
+                                    if (firstChild !== null) {
+                                        kmlObject.getFeatures().removeChild(firstChild);
                                     }
                                 }
-                            }
 
-                            google.earth.addEventListener(ge.getWindow(), 'dblclick', function
-        (event) {
-                                event.preventDefault();
-                            });
+                                ge.getFeatures().appendChild(kmlObject);
+                            }
+                        }
+
+                        //sprijecanje balona
+                        function popupPrevent(event) {
+                            event.preventDefault();
+                        }
+
+                        //double-click oznacavanje konacnog odgovora (drzave)
+
+                        drz = "Press New Game to play";
+                        $(".content .value").html(drz);
+
+                        function recordEvent(event) {
+                            event.preventDefault();
+                            if (igra == 1) {
+                                var target = event.getTarget();
+                                var type = target.getType();
+                                var boja = target.getStyleSelector().getPolyStyle().getColor();
+                                if (type == "KmlPlacemark") {
+
+                                    // get the data you want from the target.
+                                    var description = target.getDescription();
+                                    var tocnaDrzava = description.indexOf("=" + drz + "'");  //gdje je Niger ići će varijabla trenutna država koju ćemo izgenerirati
+                                    if (tocnaDrzava == -1) {
+                                        brNetocnih = brNetocnih + 1;
+                                        if (Score >= 5)
+                                            Score = Score - 5;
+                                        var boja;
+                                        var a = boja.get(); //uzima trenutnu boju
+                                        boja.set('EE5C42ff'); //obojaj u crveno
+                                        setTimeout(function () { boja.set(a) }, 85); //nakon 85 milisekundi vrati boju koja je bila
+                                    }
+
+                                    else if (tocnaDrzava != -1) {
+                                        brTocnih = brTocnih + 1;
+                                        Score = Score + 10;
+                                        target.getStyleSelector().getPolyStyle().getColor().set('ff6d9600');
+                                    }
+                                    //STAVIT METODU UPDATEDISPLAY();
+
+                                    NovaD();
+                                    $(".content .value").html(drz);
+                                    $(".content .toc").html(brTocnih);
+                                    $(".content .netoc").html(brNetocnih);
+                                    $(".content .scor").html(Score);
+
+                                }
+                            }
                         }
 
                         //funkcija za podesavanje pogleda na kontinente
@@ -291,14 +288,14 @@
                 <div class="container">
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
-                            <li><a onclick="Zumiraj(50.0, 20.0, 4500000.0);" style="cursor: pointer; cursor: pointer;">Europe</a></li>
-                            <li><a onclick="Zumiraj(0.0, 20.0, 9000000.0);" style="cursor: pointer; cursor: pointer;">Africa</a></li>
-                            <li><a onclick="Zumiraj(35.0, 90.0, 9000000.0);" style="cursor: pointer; cursor: pointer;">Asia</a></li>
-                            <li><a onclick="Zumiraj(40.0, -90.0, 9000000.0);" style="cursor: pointer; cursor: pointer;">North America</a></li>
-                            <li><a onclick="Zumiraj(-20.00, -60.0, 8000000.0);" style="cursor: pointer; cursor: pointer;">South America</a></li>
-                            <li><a onclick="Zumiraj(-22.0, 140.0, 7500000.0);" style="cursor: pointer; cursor: pointer;">Australia</a></li>
+                            <li><a onclick="Zumiraj(50.0, 20.0, 4500000.0);" style="cursor: pointer;">Europe</a></li>
+                            <li><a onclick="Zumiraj(0.0, 20.0, 9000000.0);" style="cursor: pointer;">Africa</a></li>
+                            <li><a onclick="Zumiraj(35.0, 90.0, 9000000.0);" style="cursor: pointer;">Asia</a></li>
+                            <li><a onclick="Zumiraj(40.0, -90.0, 9000000.0);" style="cursor: pointer;">North America</a></li>
+                            <li><a onclick="Zumiraj(-20.00, -60.0, 8000000.0);" style="cursor: pointer;">South America</a></li>
+                            <li><a onclick="Zumiraj(-22.0, 140.0, 7500000.0);" style="cursor: pointer;">Australia</a></li>
                             <li>                                                          </li>
-                            <li><a onclick="NovaIgra();" style="cursor: pointer; cursor: pointer;">New Game</a></li>
+                            <li><a onclick="NovaIgra();" style="cursor: pointer;">New Game</a></li>
                         </ul>
                     </div>
 
