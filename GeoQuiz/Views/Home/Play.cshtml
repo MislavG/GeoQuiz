@@ -16,7 +16,7 @@
         <div style="width: 600px; float: left;">
             <div style="height: 200px;">
                 <div class="content" align="center"><font color="1CCBA5"><h1><b><span class='value'></span></b></h1></font></div>
-                <h1 id="TimerID"></h1>
+                <h1 id="TimerID" align="center"></h1>
             </div>
             <div style="margin-left: 50px;">
 
@@ -117,7 +117,7 @@
                         }
 
                         function NovaIgra() {
-                            stop();
+                            //stop();
                             brTocnih = 0;
                             brNetocnih = 0;
                             Score = 0;
@@ -166,9 +166,8 @@
                             var nowTs = (new Date()).getTime();  //currrent timestamp
                             var dt = nowTs - lastFrameTs; //delta time
                             lastFrameTs = nowTs;
-                            ge.getOptions().setFlyToSpeed(5);
                             var lookAt = ge.getView().copyAsLookAt(ge.ALTITUDE_ABSOLUTE);
-                            var distance = dt * (speed / 2000); //distance to rotate
+                            var distance = dt * (speed / 1000); //distance to rotate
                             var newLongitude = lookAt.getLongitude() - distance;
                             lookAt.setLongitude(newLongitude);
                             ge.getView().setAbstractView(lookAt);
@@ -286,7 +285,17 @@
 
                         //trebalo bi: onemogućuje klik na države i računanje bodova
                         function stopGame() {
-                            google.earth.removeEventListener(ge.getGlobe(), "dblclick", recordEvent);
+                            igra=0;
+                            if (kmlPostoji == 1) {
+                                ge.getFeatures().removeChild(ge.getFeatures().getLastChild());
+                                kmlPostoji = 0;
+                            }
+                            google.earth.addEventListener(ge, "frameend", spin);
+                            spin();
+                            Zumiraj(40.0, -90.0, 15000000.0);
+                            drz = "Press New Game to play";
+                            $(".content .value").html(drz);
+
                         }
 
 
@@ -308,7 +317,7 @@
                             else {
                                 //alert("Time is out!");
                                 //google.earth.removeEventListener(ge.getGlobe(), "dblclick", recordEvent);
-                                igra = 0;
+                                stopGame();
                             }
                         }
                         function UpdateTimer() {
@@ -337,7 +346,7 @@
                             <li><a onclick="Zumiraj(-20.00, -60.0, 8000000.0);" style="cursor: pointer;">South America</a></li>
                             <li><a onclick="Zumiraj(-22.0, 140.0, 7500000.0);" style="cursor: pointer;">Australia</a></li>
                             <li>                                                          </li>
-                            <li><a onclick="NovaIgra(); stop(); CreateTimer('TimerID', 10);" style="cursor: pointer;">New Game</a></li>
+                            <li><a onclick="NovaIgra(); stop(); CreateTimer('TimerID', 30);" style="cursor: pointer;">New Game</a></li>
                         </ul>
                     </div>
 
