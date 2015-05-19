@@ -188,28 +188,8 @@
                             //ge.getOptions().setFlyToSpeed(5);
                             google.earth.addEventListener(ge, "frameend", spin);
 
-
-                            spin();
                             //rotacija
-                            /*var oldFlyToSpeed = ge.getOptions().getFlyToSpeed();
-                            ge.getOptions().setFlyToSpeed(ge.SPEED_TELEPORT);
-
-                            function go(count) {
-                                var lookAt = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
-                                lookAt.setLongitude(lookAt.getLongitude() + 1);
-                                //lookAt.setRange(17000000.0);
-                                ge.getView().setAbstractView(lookAt);
-
-                                if (count > 0) {
-                                    setTimeout(function () {
-                                        go(count + 1);
-                                    }, 50);
-                                } else {
-                                    ge.getOptions().setFlyToSpeed(oldFlyToSpeed);
-                                }
-                            }
-
-                            go(2); */
+                            spin();
 
                         }
                         var kmlUrl = 'https://sites.google.com/site/mislavsite/countries_world-kml/doc3.kml?attredirects=0&d=1';
@@ -327,7 +307,8 @@
                             }
                             else {
                                 //alert("Time is out!");
-                                google.earth.removeEventListener(ge.getGlobe(), "dblclick", recordEvent);
+                                //google.earth.removeEventListener(ge.getGlobe(), "dblclick", recordEvent);
+                                igra = 0;
                             }
                         }
                         function UpdateTimer() {
@@ -356,7 +337,7 @@
                             <li><a onclick="Zumiraj(-20.00, -60.0, 8000000.0);" style="cursor: pointer;">South America</a></li>
                             <li><a onclick="Zumiraj(-22.0, 140.0, 7500000.0);" style="cursor: pointer;">Australia</a></li>
                             <li>                                                          </li>
-                            <li><a onclick="NovaIgra(); stop(); CreateTimer('TimerID', 60);" style="cursor: pointer;">New Game</a></li>
+                            <li><a onclick="NovaIgra(); stop(); CreateTimer('TimerID', 10);" style="cursor: pointer;">New Game</a></li>
                         </ul>
                     </div>
 
