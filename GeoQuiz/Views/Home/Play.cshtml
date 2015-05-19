@@ -16,6 +16,7 @@
         <div style="width: 600px; float: left;">
             <div style="height: 200px;">
                 <div class="content" align="center"><font color="1CCBA5"><h1><b><span class='value'></span></b></h1></font></div>
+                <h1 id="TimerID"></h1>
             </div>
             <div style="margin-left: 50px;">
 
@@ -165,6 +166,7 @@
                             var nowTs = (new Date()).getTime();  //currrent timestamp
                             var dt = nowTs - lastFrameTs; //delta time
                             lastFrameTs = nowTs;
+                            ge.getOptions().setFlyToSpeed(5);
                             var lookAt = ge.getView().copyAsLookAt(ge.ALTITUDE_ABSOLUTE);
                             var distance = dt * (speed / 2000); //distance to rotate
                             var newLongitude = lookAt.getLongitude() - distance;
@@ -193,78 +195,78 @@
                         }
                         var kmlUrl = 'https://sites.google.com/site/mislavsite/countries_world-kml/doc3.kml?attredirects=0&d=1';
 
-                        function addKmlFromUrl(kmlUrl) {
-                        kmlPostoji = 1;
-                            google.earth.fetchKml(ge, kmlUrl, kmlFinishedLoading);
-                        }
-
-                        function kmlFinishedLoading(kmlObject) {
-                            if (kmlObject) {
+                            function addKmlFromUrl(kmlUrl) {
                             kmlPostoji = 1;
-                                ge.getFeatures().appendChild(kmlObject);
+                                google.earth.fetchKml(ge, kmlUrl, kmlFinishedLoading);
                             }
-                        }
 
-                        function kmlFinishedLoading(kmlObject) {
-                            if (kmlObject) {
-                                // check if the object is a KmlContainer (folder or document)
-                                if ('getFeatures' in kmlObject) {
-                                    var firstChild = kmlObject.getFeatures().getFirstChild();
-                                    if (firstChild !== null) {
-                                        kmlObject.getFeatures().removeChild(firstChild);
-                                    }
+                            function kmlFinishedLoading(kmlObject) {
+                                if (kmlObject) {
+                                kmlPostoji = 1;
+                                    ge.getFeatures().appendChild(kmlObject);
                                 }
-
-                                ge.getFeatures().appendChild(kmlObject);
                             }
-                        }
 
-                        //sprijecanje balona
-                        function popupPrevent(event) {
-                            event.preventDefault();
-                        }
+                            function kmlFinishedLoading(kmlObject) {
+                                if (kmlObject) {
+                                    // check if the object is a KmlContainer (folder or document)
+                                    if ('getFeatures' in kmlObject) {
+                                        var firstChild = kmlObject.getFeatures().getFirstChild();
+                                        if (firstChild !== null) {
+                                            kmlObject.getFeatures().removeChild(firstChild);
+                                        }
+                                    }
 
-                        //double-click oznacavanje konacnog odgovora (drzave)
+                                    ge.getFeatures().appendChild(kmlObject);
+                                }
+                            }
+
+                            //sprijecanje balona
+                            function popupPrevent(event) {
+                                event.preventDefault();
+                            }
+
+                            //double-click oznacavanje konacnog odgovora (drzave)
 
                         drz = "Press New Game to play";
                         $(".content .value").html(drz);
 
-                        function recordEvent(event) {
-                            event.preventDefault();
+                            function recordEvent(event) {
+                                    event.preventDefault();
                             if (igra == 1) {
-                                var target = event.getTarget();
-                                var type = target.getType();
-                                var boja = target.getStyleSelector().getPolyStyle().getColor();
-                                if (type == "KmlPlacemark") {
+                                    var target = event.getTarget();
+                                    var type = target.getType();
+                                    var boja = target.getStyleSelector().getPolyStyle().getColor();
+                                    if (type == "KmlPlacemark") {
 
-                                    // get the data you want from the target.
-                                    var description = target.getDescription();
-                                    var tocnaDrzava = description.indexOf("=" + drz + "'");  //gdje je Niger ići će varijabla trenutna država koju ćemo izgenerirati
+                                        // get the data you want from the target.
+                                        var description = target.getDescription();
+                                        var tocnaDrzava = description.indexOf("=" + drz + "'");  //gdje je Niger ići će varijabla trenutna država koju ćemo izgenerirati
                                     if (tocnaDrzava == -1) {
-                                        brNetocnih = brNetocnih + 1;
-                                        if (Score >= 5)
-                                            Score = Score - 5;
-                                        var boja;
-                                        var a = boja.get(); //uzima trenutnu boju
-                                        boja.set('EE5C42ff'); //obojaj u crveno
-                                        setTimeout(function () { boja.set(a) }, 85); //nakon 85 milisekundi vrati boju koja je bila
+                                            brNetocnih = brNetocnih + 1;
+                                            if (Score >= 5)
+                                                Score = Score - 5;
+                                            var boja;
+                                            var a = boja.get(); //uzima trenutnu boju
+                                            boja.set('EE5C42ff'); //obojaj u crveno
+                                            setTimeout(function () { boja.set(a) }, 85); //nakon 85 milisekundi vrati boju koja je bila
+                                        }
+
+                                    else if (tocnaDrzava != -1) {
+                                            brTocnih = brTocnih + 1;
+                                            Score = Score + 10;
+                                            target.getStyleSelector().getPolyStyle().getColor().set('ff6d9600');
+                                        }
+                                        //STAVIT METODU UPDATEDISPLAY();
+
+                                            NovaD();
+                                        $(".content .value").html(drz);
+                                        $(".content .toc").html(brTocnih);
+                                        $(".content .netoc").html(brNetocnih);
+                                        $(".content .scor").html(Score);
+
                                     }
-
-                                else if (tocnaDrzava != -1) {
-                                        brTocnih = brTocnih + 1;
-                                        Score = Score + 10;
-                                        target.getStyleSelector().getPolyStyle().getColor().set('ff6d9600');
-                                    }
-                                    //STAVIT METODU UPDATEDISPLAY();
-
-                                    NovaD();
-                                    $(".content .value").html(drz);
-                                    $(".content .toc").html(brTocnih);
-                                    $(".content .netoc").html(brNetocnih);
-                                    $(".content .scor").html(Score);
-
                                 }
-                            }
                         }
 
                         //funkcija za podesavanje pogleda na kontinente
@@ -275,11 +277,48 @@
                             lookAt.setRange(range);
                             ge.getView().setAbstractView(lookAt);
                         }
+
                         //kraj rotacije
                         function stop() {
                             google.earth.removeEventListener(ge, "frameend", spin);
                             ge.getOptions().setFlyToSpeed(1.3);
                         }
+
+                        //trebalo bi: onemogućuje klik na države i računanje bodova
+                        function stopGame() {
+                            google.earth.removeEventListener(ge.getGlobe(), "dblclick", recordEvent);
+                        }
+
+
+                        //timer, u redu 19 ovo postavljeno <h1 id="TimerID"></h1>, i na new game se poziva
+                        var Timer;
+                        var TotalSeconds;
+                        function CreateTimer(TimerID, Time) {
+                            Timer = document.getElementById(TimerID);
+                            TotalSeconds = Time;
+                            UpdateTimer()
+                            window.setTimeout("Tick()", 1000);
+                        }
+                        function Tick() {
+                            if (TotalSeconds > 0) {
+                                TotalSeconds -= 1;
+                                UpdateTimer()
+                                window.setTimeout("Tick()", 1000);
+                            }
+                            else {
+                                //alert("Time is out!");
+                                //google.earth.removeEventListener(ge.getGlobe(), "dblclick", recordEvent);
+                                igra = 0;
+                            }
+                        }
+                        function UpdateTimer() {
+                            Timer.innerHTML = TotalSeconds;
+                        }
+                        function displayResult() {
+                            document.getElementById("TimerID").innerHTML;
+                        }
+                        //kraj timera
+
 
                         function failureCB(errorCode) {
                         }
@@ -298,7 +337,7 @@
                             <li><a onclick="Zumiraj(-20.00, -60.0, 8000000.0);" style="cursor: pointer;">South America</a></li>
                             <li><a onclick="Zumiraj(-22.0, 140.0, 7500000.0);" style="cursor: pointer;">Australia</a></li>
                             <li>                                                          </li>
-                            <li><a onclick="NovaIgra();" style="cursor: pointer;">New Game</a></li>
+                            <li><a onclick="NovaIgra(); stop(); CreateTimer('TimerID', 10);" style="cursor: pointer;">New Game</a></li>
                         </ul>
                     </div>
 
