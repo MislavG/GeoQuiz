@@ -128,6 +128,11 @@ namespace GeoQuiz.Controllers
             return "podaci";
             //return View();
         }
+        [WebMethod]
+        public string SpremiScore(string nick, int score)
+        {
+            return "patkica";
+        }
 
         [HttpPost]
         public string Show(FormCollection postedForm, CheckContinent model)
