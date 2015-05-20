@@ -272,9 +272,12 @@
     <Content Include="Views\HighScore\Details.cshtml" />
     <Content Include="Views\HighScore\Edit.cshtml" />
     <Content Include="Views\HighScore\Index.cshtml" />
-    <Content Include="Views\Home\Play.cshtml" />
+    <Content Include="..\..\..\..\Desktop\PPIJ\Play.cshtml">
+      <Link>Views\Home\Play.cshtml</Link>
+    </Content>
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Learning.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
