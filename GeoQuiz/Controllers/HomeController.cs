@@ -9,13 +9,16 @@ using System.Web.Services;
 
 namespace GeoQuiz.Controllers
 {
-    
+
     public class HomeController : Controller
     {
         private GeoQuizEntities db = new GeoQuizEntities();
         Random rand = new Random();
+
+
+        List<int> sifkon = new List<int>();
         //List<string> drzave = new List<string>();
-        [HttpGet] 
+        [HttpGet]
         public ActionResult Index()
         {
             return View();
@@ -26,44 +29,82 @@ namespace GeoQuiz.Controllers
         {
             return View(new CheckContinent());
         }
-        
+
         [WebMethod]
         public string RandomDrzava2()
         {
-            var ids = from drzava in db.Drzava
-                      select drzava.NazivDrzavaEng;
-            List<string> drzave = new List<string>();
-            
-            foreach (var item in ids)
+            //string val = Show();
+            List<string> novaval = GlobVar.val.Split(',').ToList();
+
+            foreach (var drz in novaval)
             {
-                drzave.Add(item.Trim());
+                string caseSwitch = drz.Trim();
+                switch (caseSwitch)
+                {
+                    case "":
+                        break;
+                    case "Europe":
+                        sifkon.Add(1);
+                        break;
+                    case "Africa":
+                        sifkon.Add(2);
+                        break;
+                    case "Asia":
+                        sifkon.Add(3);
+                        break;
+                    case "North America":
+                        sifkon.Add(4);
+                        break;
+                    case "South America":
+                        sifkon.Add(5);
+                        break;
+                    case "Australia":
+                        sifkon.Add(6);
+                        break;
+                    case "Whole World":
+
+                        for (int i = 1; i <= 6; i++)
+                        {
+                            sifkon.Add(i);
+                        }
+                        break;
+
+                }
 
             }
+            //List<Drzava> dd = db.Drzava.ToList();
+            //List<int> myValues = new List<int>(new int[] { 1, 2, 3 });             
+            var ids = from drzava in db.Drzava
+                      where sifkon.Contains(drzava.SifraKontinent)
+                      select drzava.NazivDrzavaEng;
+
+            List<string> drzave = new List<string>();
+
+            foreach (var item in ids)
+                drzave.Add(item.Trim());
+
+
             int r = rand.Next(drzave.Count);
             string odabrana = ((string)drzave[r]);
-            drzave.Remove(odabrana);
             return odabrana;
         }
 
         [HttpPost]
         public string Show(FormCollection postedForm, CheckContinent model)
         {
-
-            string val = "";
+            GlobVar.val = string.Empty;
 
             foreach (var con in model.Continents)
             {
 
                 if (postedForm[con].ToString().Contains("true"))
                 {
-
-                    val = val + " " + con;
-
+                    GlobVar.val = GlobVar.val + "," + con;
                 }
 
             }
 
-            return "Selected continents are: <b>" + val + "</b>";
+            return GlobVar.val;
         }
 
         public ActionResult Instructions()
@@ -72,6 +113,6 @@ namespace GeoQuiz.Controllers
 
             return View();
         }
-        
+
     }
 }
