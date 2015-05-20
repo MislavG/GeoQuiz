@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using MvcCheckBoxList.Model
+@model GeoQuiz.Models.CheckContinentViewModel
+<!DOCTYPE html>
 @{
     ViewBag.Title = "GeoQuiz";
 }
@@ -34,40 +36,24 @@
             </div>
             <div style="margin-left: 50px;">
 
-                @using (Html.BeginForm("Show", "Home", FormMethod.Post))
+                <section class="checkBoxListFor">
+                    <p>
+                        <h4>Please Select Continent(s):</h4>
+                        @using (Html.BeginForm("Play", "Home", FormMethod.Post))
                         {
-                            <b>Select continent(s): </b>
-                            var pom = 0;
-                            foreach (string con in Model.Continents)
-                            {
-                                pom = pom + 1;
-                                if (pom < 7)
-                                {
-                                    <table>
-                                        <tr>
-                                            <td>
+                            @Html.CheckBoxListFor(model => model.PostedCheckContinents.CheckContinentIds,
+                                  model => model.AvailableCheckContinents,
+                                  checkcontinent => checkcontinent.Id,
+                                  checkcontinent => checkcontinent.Name,
+                                  model => model.SelectedCheckContinents,
+                                  Position.Vertical)
 
-                                                @Html.CheckBox(con) @con
-                                            </td>
-                                        </tr>
-                                    </table>
-                                }
-                                else
-                                {
-                                    <b>Or: </b>
-                                    <table>
-                                        <tr>
-                                            <td>
-                                                @Html.CheckBox(con) @con
-                                            </td>
-                                        </tr>
-                                    </table>
-                                }
 
-                            }
-
-                    <input type="submit" value="Save" />
-                    } 
+                        <input class="btn btn-primary btn-default" type="submit" value="Submit" />
+                        }
+                    </p>
+                </section>
+                
                 <div class="content"><h3><b>Score:</b>    <span class='scor'></span></h3></div>
                 <div class="content"><h3><b>Correct answers:</b>    <span class='toc'></span></h3></div>
                 <div class="content"><h3><b>Incorrect answers:</b>   <span class='netoc'></span></h3></div>

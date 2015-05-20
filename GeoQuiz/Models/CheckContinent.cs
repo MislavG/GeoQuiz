@@ -11,20 +11,9 @@ namespace GeoQuiz.Models
     
     public class CheckContinent
     {
-        public List<string> Continents
-        {
-            get
-            {
-                List<string> continent = new List<string>();
-                continent.Add("Europe");
-                continent.Add("Africa");
-                continent.Add("Asia");
-                continent.Add("North America");
-                continent.Add("South America");
-                continent.Add("Australia");
-                continent.Add("Whole World");
-                return continent;
-            }
-        }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public bool IsSelected { get; set; }
+        public object Tags { get; set; }
     }
 }
