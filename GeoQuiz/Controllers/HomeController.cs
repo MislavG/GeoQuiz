@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Net;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using GeoQuiz.Models;
 using System.Web.UI;
 using System.Web.Services;
+using System.Web.Script.Serialization;
 
 namespace GeoQuiz.Controllers
 {
@@ -15,7 +19,7 @@ namespace GeoQuiz.Controllers
         private GeoQuizEntities db = new GeoQuizEntities();
         Random rand = new Random();
         List<int> sifkon = new List<int>();
-        
+       
        
         [HttpGet]
         public ActionResult Index()
@@ -84,7 +88,7 @@ namespace GeoQuiz.Controllers
         public List<string> PunjenjeDrzava()
         {
             GlobVar.drzave.Clear();
-                       
+            
             foreach (var drz in GlobVar.postedCheckCon)
             {
                 string caseSwitch = drz;
@@ -145,12 +149,50 @@ namespace GeoQuiz.Controllers
             GlobVar.drzave.Remove(GlobVar.odabrana);
             return "ok";
         }
+
+        [WebMethod]
+        public string DohvatiPodatak(string stisnuta)
+        {
+            //string val = Show();
+            //List<string> novaval = GlobVar.val.Split(',').ToList();
+
+            /*var podaci= from drzava in db.Drzava
+                        where db.Drzava.NazivDrzaveEng=stisnutaDrzava
+                        select *;  PODACI DRZAVE */        
+             
+            //List<Drzava> dd = db.Drzava.ToList();
+            //List<int> myValues = new List<int>(new int[] { 1, 2, 3 });             
+            //var ids = from drzava in db.Drzava
+            //          where sifkon.Contains(drzava.SifraKontinent)
+            //          select drzava.NazivDrzavaEng;
+
+            //List<string> drzave = new List<string>();
+
+            //foreach (var item in ids)
+            //    drzave.Add(item.Trim());
+
+
+            //int r = rand.Next(drzave.Count);
+            //string odabrana = ((string)drzave[r]);
+            //return Json(bla, JsonRequestBehaviour.AllowGet);
+            //return new JavaScriptSerializer().Serialize(new { errMsg = "test" });
+            return "podaci";
+            //return View();
+        }
+
+
         public ActionResult Instructions()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Instructions";
 
             return View();
         }
 
+        public ActionResult Learning()
+        {
+            ViewBag.Message = "Learning";
+
+            return View();
+        }
     }
 }
