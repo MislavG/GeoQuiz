@@ -9,6 +9,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" src="https://www.google.com/jsapi">
     </script>
+    <style>
+        h4.hidden {
+            visibility: hidden;
+        }
+        input[type=text]{
+            padding: 0;
+            margin: 0;
+            background: transparent;
+            font: 20px sans-serif;
+            width: 147px;
+            color: gold;
+            font-family: 'Comic Sans MS';
+            }
+    </style>
 </head>
 <body>
     <div style="width: 100%; overflow: hidden;">
@@ -57,8 +71,19 @@
                 <div class="content"><h3><b>Score:</b>    <span class='scor'></span></h3></div>
                 <div class="content"><h3><b>Correct answers:</b>    <span class='toc'></span></h3></div>
                 <div class="content"><h3><b>Incorrect answers:</b>   <span class='netoc'></span></h3></div>
-
-
+                <form action="#" onsubmit="return spremiBazu(document.getElementById('nick').value);">
+                    <h4 class="hidden" id="submitHidden">
+                        <input type="text" id="nick" value="Enter Nickname"
+                               onfocus="(this.value == 'Enter Nickname') && (this.value = '')"
+                               onblur="(this.value == '') && (this.value = 'Enter Nickname')"><br>
+                        <input class="btn btn-warning btn-default" type="submit" value="Submit highscore">
+                    </h4>
+                </form>
+                <form action="#" onsubmit="return learningMode();">
+                    <h4 class="text" id="lrn">
+                        <input class="btn btn-primary btn-default" id="btnLrn" type="submit" value="Learning mode">
+                    </h4>
+                </form>
             </div>
         </div>
         <div style="margin-left: 620px;">
@@ -116,13 +141,42 @@
                             $(".content .value").html(drz);
                         }
 
+                        function spremiBazu(nickname) {
+                            alert(nickname);
+                            alert(Score);
+                            y.setAttribute('class', 'hidden');
+                        }
+
+                        function learningMode() {
+                            if (upali == 1) {
+                                btn.setAttribute('class', 'btn btn-primary btn-success');
+                                upali = 0;
+                                google.earth.removeEventListener(ge.getGlobe(), 'click', popupPrevent); //omogucavanje balona
+                                google.earth.removeEventListener(ge, "frameend", spin);
+                                if (kmlPostoji == 1) {
+                                    ge.getFeatures().removeChild(ge.getFeatures().getLastChild());
+                                    kmlPostoji = 0;
+                                }
+                                addKmlFromUrl(kmlUrl);
+                                stop();
+                            }
+                            else if (upali == 0) {
+                                btn.setAttribute('class', 'btn btn-primary btn-default');
+                                google.earth.addEventListener(ge.getGlobe(), 'click', popupPrevent); //sprijecavanje balona nakon klika
+                                upali = 1;
+                                stopGame();
+                            }
+                        }
+
                         function NovaIgra() {
-                            //stop();
+                            google.earth.addEventListener(ge.getGlobe(), 'click', popupPrevent); //sprijecavanje balona nakon klika
                             brTocnih = 0;
                             brNetocnih = 0;
                             Score = 0;
                             igra = 1;
                             NovaD();
+                            y.setAttribute('class', 'hidden'); //skriva submit highscore
+                            learn.setAttribute('class', 'hidden');
                             $(".content .toc").html(brTocnih);
                             $(".content .netoc").html(brNetocnih);
                             $(".content .scor").html(Score);
@@ -138,6 +192,7 @@
                             setLookAt(ge, a, b, c);
                         }
 
+                        var upali = 1; //za paljenje learning moda
                         var igra = 0;
                         var brTocnih = 0;
                         var brNetocnih = 0;
@@ -146,7 +201,10 @@
                         $(".content .netoc").html(brNetocnih);
                         $(".content .scor").html(Score);
 
-
+                        var y = document.getElementById("submitHidden");
+                        //y.class.display = "text";
+                        var learn = document.getElementById("lrn");
+                        var btn = document.getElementById("btnLrn");
 
                         var ge;
                         google.load("earth", "1", { "other_params": "sensor=false" });
@@ -179,13 +237,11 @@
                             ge.getWindow().setVisibility(true);
                             ge.getLayerRoot().enableLayerById(ge.LAYER_BORDERS, false);
                             // Get the current view - which is America view by default
-                            google.earth.addEventListener(ge.getGlobe(), 'click', popupPrevent); //sprijecavanje balona nakon klika
-                            google.earth.addEventListener(ge.getGlobe(), 'dblclick', recordEvent); //sprijecavanje balona nakon klika
                             kmlPostoji = 0;
 
                             //loadanje KML-a
-                            
-
+                            google.earth.addEventListener(ge.getGlobe(), 'click', popupPrevent); //sprijecavanje balona nakon klika
+                            google.earth.addEventListener(ge.getGlobe(), 'dblclick', recordEvent); //sprijecavanje balona nakon klika
                             google.earth.addEventListener(ge, "frameend", spin);
 
 
@@ -227,12 +283,13 @@
 
                             //double-click oznacavanje konacnog odgovora (drzave)
 
+                        var yourBest = 0;
                         drz = "Press New Game to play";
                         $(".content .value").html(drz);
 
                             function recordEvent(event) {
-                                    event.preventDefault();
-                            if (igra == 1) {
+                                event.preventDefault();
+                                if (igra == 1) {
                                     var target = event.getTarget();
                                     var type = target.getType();
                                     var boja = target.getStyleSelector().getPolyStyle().getColor();
@@ -258,7 +315,7 @@
                                         }
                                         //STAVIT METODU UPDATEDISPLAY();
 
-                                            NovaD();
+                                        NovaD();
                                         $(".content .value").html(drz);
                                         $(".content .toc").html(brTocnih);
                                         $(".content .netoc").html(brNetocnih);
@@ -285,7 +342,12 @@
 
                         //trebalo bi: onemogućuje klik na države i računanje bodova
                         function stopGame() {
-                            igra=0;
+                            igra = 0;
+                            learn.setAttribute('class', 'text');
+                            if (Score > yourBest) {
+                                y.setAttribute('class', 'text'); //postavi na visible
+                                yourBest = Score;
+                            }
                             if (kmlPostoji == 1) {
                                 ge.getFeatures().removeChild(ge.getFeatures().getLastChild());
                                 kmlPostoji = 0;
@@ -295,7 +357,6 @@
                             Zumiraj(40.0, -90.0, 15000000.0);
                             drz = "Press New Game to play";
                             $(".content .value").html(drz);
-
                         }
 
 
