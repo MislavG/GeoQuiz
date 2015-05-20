@@ -18,7 +18,7 @@ namespace GeoQuiz.Models
         public byte SifraKontinent { get; set; }
         public string GlavniGrad { get; set; }
         public byte[] Zastava { get; set; }
-        public Nullable<int> BrojStanovnika { get; set; }
+        public string BrojStanovnika { get; set; }
         public string NazivDrzavaHr { get; set; }
         public string NazivDrzavaEng { get; set; }
     
