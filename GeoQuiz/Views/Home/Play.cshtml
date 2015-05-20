@@ -118,11 +118,14 @@
                         var MyAppUrlSettings = {
                             MyUsefulUrl: '@Url.Action("RandomDrzava2","Home")'
                         }
-
+                        var MyAppUrlSettings2 = {
+                            MyUsefulUrl2: '@Url.Action("PunjenjeDrzava","Home")'
+                        }
+                        var MyAppUrlSettings3 = {
+                            MyUsefulUrl3: '@Url.Action("BrisanjePogodene","Home")'
+                        }
                         function NovaD() {
-                            //alert(MyAppUrlSettings.MyUsefulUrl);
-
-                            //alert("a");
+                            
                             var abc = $.ajax({
                                 type: "POST",
                                 url: MyAppUrlSettings.MyUsefulUrl,
@@ -139,6 +142,36 @@
                             });
                             drz = drz1.replace(/&amp;/g, '&');
                             $(".content .value").html(drz);
+                        }
+                        function NapuniDrzave() {
+                            var abc = $.ajax({
+                                type: "POST",
+                                url: MyAppUrlSettings2.MyUsefulUrl2,
+                                data: {},
+                                async: false,
+                                error: function (msg) {
+                                    callback(msg);
+                                },
+                                success: function (msg) {
+                                    $("#divResult").html("success");
+                                },
+
+                            });
+                        }
+                        function BrisiPogodenu() {
+                            var abc = $.ajax({
+                                type: "POST",
+                                url: MyAppUrlSettings3.MyUsefulUrl3,
+                                data: {},
+                                async: false,
+                                error: function (msg) {
+                                    callback(msg);
+                                },
+                                success: function (msg) {
+                                    $("#divResult").html("success");
+                                },
+
+                            });
                         }
 
                         function spremiBazu(nickname) {
@@ -174,6 +207,7 @@
                             brNetocnih = 0;
                             Score = 0;
                             igra = 1;
+                            NapuniDrzave();
                             NovaD();
                             y.setAttribute('class', 'hidden'); //skriva submit highscore
                             learn.setAttribute('class', 'hidden');
@@ -312,6 +346,7 @@
                                             brTocnih = brTocnih + 1;
                                             Score = Score + 10;
                                             target.getStyleSelector().getPolyStyle().getColor().set('ff6d9600');
+                                            BrisiPogodenu();
                                         }
                                         //STAVIT METODU UPDATEDISPLAY();
 

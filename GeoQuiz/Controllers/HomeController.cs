@@ -19,9 +19,8 @@ namespace GeoQuiz.Controllers
         private GeoQuizEntities db = new GeoQuizEntities();
         Random rand = new Random();
 
-
         List<int> sifkon = new List<int>();
-        //List<string> drzave = new List<string>();
+       
         [HttpGet]
         public ActionResult Index()
         {
@@ -33,13 +32,12 @@ namespace GeoQuiz.Controllers
         {
             return View(new CheckContinent());
         }
-
         [WebMethod]
-        public string RandomDrzava2()
+        public List<string> PunjenjeDrzava()
         {
-            //string val = Show();
             List<string> novaval = GlobVar.val.Split(',').ToList();
-
+            GlobVar.drzave.Clear();
+            
             foreach (var drz in novaval)
             {
                 string caseSwitch = drz.Trim();
@@ -75,22 +73,30 @@ namespace GeoQuiz.Controllers
 
                 }
 
-            }
-            //List<Drzava> dd = db.Drzava.ToList();
-            //List<int> myValues = new List<int>(new int[] { 1, 2, 3 });             
+            }           
             var ids = from drzava in db.Drzava
                       where sifkon.Contains(drzava.SifraKontinent)
                       select drzava.NazivDrzavaEng;
-
-            List<string> drzave = new List<string>();
-
-            foreach (var item in ids)
-                drzave.Add(item.Trim());
-
-
-            int r = rand.Next(drzave.Count);
-            string odabrana = ((string)drzave[r]);
-            return odabrana;
+            foreach (var d in ids)
+            {
+                GlobVar.drzave.Add(d.Trim());
+            }
+            return GlobVar.drzave;
+        }
+        [WebMethod]
+        public string RandomDrzava2()
+        {
+            GlobVar.odabrana = string.Empty;
+            int r = rand.Next(GlobVar.drzave.Count);           
+            GlobVar.odabrana = ((string)GlobVar.drzave[r]);
+            string pomodabrana = String.Copy(GlobVar.odabrana);
+            return pomodabrana;
+        }
+        [WebMethod]
+        public string BrisanjePogodene()
+        {
+            GlobVar.drzave.Remove(GlobVar.odabrana);
+            return "ok";
         }
 
         [WebMethod]
