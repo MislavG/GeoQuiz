@@ -10,6 +10,7 @@ using GeoQuiz.Models;
 using System.Web.UI;
 using System.Web.Services;
 using System.Web.Script.Serialization;
+using System.Data.Linq;
 
 namespace GeoQuiz.Controllers
 {
@@ -180,9 +181,33 @@ namespace GeoQuiz.Controllers
             //return View();
         }
         [WebMethod]
-        public string SpremiScore(string nick, int score)
+        public void SpremiScore(string nick, int score)
         {
-            return "patkica";
+            // Create a new Order o;
+            GeoQuizEntities CTX;
+            CTX = new GeoQuizEntities();
+            HighScore hig = new HighScore
+            {
+                Nadimak = nick,
+                Bodovi = score
+            };
+            CTX.HighScore.Add(hig);
+            
+
+            // Submit the change to the database. 
+            try
+            {
+                CTX.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                // Make some adjustments. 
+                // ... 
+                // Try again.
+                CTX.SaveChanges();
+            }
+            //return "";
         }
 
 

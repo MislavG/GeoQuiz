@@ -15,6 +15,9 @@
         h4.hidden {
             visibility: hidden;
         }
+        p.hidden {
+            visibility: hidden;
+        }
 
             input[type=text] {
             padding: 0;
@@ -31,15 +34,15 @@
     <div style="width: 100%; overflow: hidden;">
         <div style="height: 50px;"></div>
         <div style="width: 600px; float: left;">
-            <div style="height: 200px;">
+            <div style="height: 150px;">
                 <div class="content" align="center"><font color="1CCBA5"><h1><b><span class='value'></span></b></h1></font></div>
                 <h1 id="TimerID" align="center"></h1>
             </div>
             <div style="margin-left: 50px;">
 
                 <section class="checkBoxListFor">
-                    <p>
-                        <h4>Please Select Continent(s):</h4>
+                    <p class="text" id="chck">
+                        <h4>Select Continents:</h4>
                         @using (Html.BeginForm("Play", "Home", FormMethod.Post))
                         {
                             @Html.CheckBoxListFor(model => model.PostedCheckContinents.CheckContinentIds,
@@ -67,7 +70,7 @@
                     </h4>
                 </form>
                 <form action="#" onsubmit="return learningMode();">
-                    <h4 class="text" id="lrn">
+                    <h4 class="hidden" id="lrn">
                         <input class="btn btn-primary btn-default" id="btnLrn" type="submit" value="Learning mode">
                     </h4>
                 </form>
@@ -174,7 +177,6 @@
                 url: putanja.put,
                 data: parameter,
                 success: function (msg) {
-                    alert(msg);
                     $("#divResult").html("success");
                 },
 
@@ -211,6 +213,7 @@
             NapuniDrzave();
             NovaD();
             y.setAttribute('class', 'hidden'); //skriva submit highscore
+            check.setAttribute('class', 'hidden');
             learn.setAttribute('class', 'hidden');
             $(".content .toc").html(brTocnih);
             $(".content .netoc").html(brNetocnih);
@@ -239,7 +242,7 @@
         var y = document.getElementById("submitHidden");
         //y.class.display = "text";
         var learn = document.getElementById("lrn");
-        var btn = document.getElementById("btnLrn");
+        var check = document.getElementById("chck");
 
         var ge;
         google.load("earth", "1", { "other_params": "sensor=false" });
@@ -379,7 +382,8 @@
         //trebalo bi: onemogućuje klik na države i računanje bodova
         function stopGame() {
             igra = 0;
-            learn.setAttribute('class', 'text');
+            //learn.setAttribute('class', 'text');
+            check.setAttribute('class', 'text');
             if (Score > yourBest) {
                 y.setAttribute('class', 'text'); //postavi na visible
                 yourBest = Score;
@@ -443,7 +447,7 @@
                             <li><a onclick="Zumiraj(-20.00, -60.0, 8000000.0);" style="cursor: pointer;">South America</a></li>
                             <li><a onclick="Zumiraj(-22.0, 140.0, 7500000.0);" style="cursor: pointer;">Australia</a></li>
                             <li>                      </li>
-                            <li><a onclick="NovaIgra(); stop(); CreateTimer('TimerID', 30);" style="cursor: pointer;">New Game</a></li>
+                            <li><a onclick="NovaIgra(); stop(); CreateTimer('TimerID', 60);" style="cursor: pointer;">New Game</a></li>
                         </ul>
                     </div>
 
