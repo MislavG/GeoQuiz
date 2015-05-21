@@ -10,6 +10,7 @@ using GeoQuiz.Models;
 using System.Web.UI;
 using System.Web.Services;
 using System.Web.Script.Serialization;
+using System.Data.Linq;
 
 namespace GeoQuiz.Controllers
 {
@@ -85,7 +86,7 @@ namespace GeoQuiz.Controllers
             return model;
         }
         [WebMethod]
-        public List<string> PunjenjeDrzava()
+        public int PunjenjeDrzava()
         {
             GlobVar.drzave.Clear();
             
@@ -125,7 +126,8 @@ namespace GeoQuiz.Controllers
                         break;
                 }
 
-            }           
+            }
+            int m = sifkon.Count;
             var ids = from drzava in db.Drzava
                       where sifkon.Contains(drzava.SifraKontinent)
                       select drzava.NazivDrzavaEng;
@@ -133,7 +135,7 @@ namespace GeoQuiz.Controllers
             {
                 GlobVar.drzave.Add(d.Trim());
             }
-            return GlobVar.drzave;
+            return m;
         }
         [WebMethod]
         public string RandomDrzava2()

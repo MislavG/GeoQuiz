@@ -143,6 +143,7 @@
                                     callback(msg);
                                 },
                                 success: function (msg) {
+                                    brojkontinenata = msg;
                                     $("#divResult").html("success");
                                 },
                             });
@@ -336,7 +337,7 @@
                     if (tocnaDrzava == -1) {
                         brNetocnih = brNetocnih + 1;
                         if (Score >= 5)
-                            Score = Score - 5;
+                            Score = Score - 5*(brojkontinenata%2);
                         var boja;
                         var a = boja.get(); //uzima trenutnu boju
                         boja.set('EE5C42ff'); //obojaj u crveno
@@ -345,7 +346,7 @@
 
                     else if (tocnaDrzava != -1) {
                         brTocnih = brTocnih + 1;
-                        Score = Score + 10;
+                        Score = Score + 10*brojkontinenata;
                         target.getStyleSelector().getPolyStyle().getColor().set('ff6d9600');
                         BrisiPogodenu();
                     }
@@ -453,4 +454,3 @@
     </div>
 </body>
 </html>
-@*                                        *@
