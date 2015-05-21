@@ -1,279 +1,287 @@
-﻿    @{
-        ViewBag.Title = "GeoQuiz";
-    }
-    <html>
-    <head>
-        <title>Earth</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script type="text/javascript" src="https://www.google.com/jsapi">
-        </script>
-        <style>
-            h4.hidden {
-                visibility: hidden;
-            }
+﻿@using MvcCheckBoxList.Model
+@model GeoQuiz.Models.CheckContinentViewModel
+<!DOCTYPE html>
+@{
+    ViewBag.Title = "GeoQuiz";
+}
+<html>
+<head>
+    <title>Earth</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="https://www.google.com/jsapi">
+    </script>
+    <style>
+        h4.hidden {
+            visibility: hidden;
+        }
 
             input[type=text] {
-                padding: 0;
-                margin: 0;
-                background: transparent;
-                font: 20px sans-serif;
-                width: 147px;
-                color: gold;
-                font-family: 'Comic Sans MS';
+            padding: 0;
+            margin: 0;
+            background: transparent;
+            font: 20px sans-serif;
+            width: 147px;
+            color: gold;
+            font-family: 'Comic Sans MS';
             }
-        </style>
-    </head>
-    <body>
-        <div style="width: 100%; overflow: hidden;">
-            <div style="height: 50px;"></div>
-            <div style="width: 600px; float: left;">
-                <div style="height: 200px;">
-                    <div class="content" align="center"><font color="1CCBA5"><h1><b><span class='value'></span></b></h1></font></div>
-                    <h1 id="TimerID" align="center"></h1>
-                </div>
-                <div style="margin-left: 50px;">
-
-                    @using (Html.BeginForm("Show", "Home", FormMethod.Post))
-                    {
-                        <b>Select continent(s): </b>
-                        var pom = 0;
-                        foreach (string con in Model.Continents)
-                        {
-                            pom = pom + 1;
-                            if (pom < 7)
-                            {
-                                <table>
-                                    <tr>
-                                        <td>
-
-                                            @Html.CheckBox(con) @con
-                                        </td>
-                                    </tr>
-                                </table>
-                            }
-                            else
-                            {
-                                <b>Or: </b>
-                                <table>
-                                    <tr>
-                                        <td>
-                                            @Html.CheckBox(con) @con
-                                        </td>
-                                    </tr>
-                                </table>
-                            }
-
-                        }
-
-                        <input type="submit" value="Save" />
-                    }
-                    
-                    <div class="content"><h3><b>Score:</b>    <span class='scor'></span></h3></div>
-                    <div class="content"><h3><b>Correct answers:</b>    <span class='toc'></span></h3></div>
-                    <div class="content"><h3><b>Incorrect answers:</b>   <span class='netoc'></span></h3></div>
-                    <form action="#" onsubmit="return spremiBazu(document.getElementById('nick').value);">
-                        <h4 class="hidden" id="submitHidden">
-                            <input type="text" id="nick" value="Enter Nickname"
-                                   onfocus="(this.value == 'Enter Nickname') && (this.value = '')"
-                                   onblur="(this.value == '') && (this.value = 'Enter Nickname')"><br>
-                            <input class="btn btn-warning btn-default" type="submit" value="Submit highscore">
-                        </h4>
-                    </form>
-                    <form action="#" onsubmit="return learningMode();">
-                        <h4 class="text" id="lrn">
-                            <input class="btn btn-primary btn-default" id="btnLrn" type="submit" value="Learning mode">
-                        </h4>
-                    </form>
-                </div>
+    </style>
+</head>
+<body>
+    <div style="width: 100%; overflow: hidden;">
+        <div style="height: 50px;"></div>
+        <div style="width: 600px; float: left;">
+            <div style="height: 200px;">
+                <div class="content" align="center"><font color="1CCBA5"><h1><b><span class='value'></span></b></h1></font></div>
+                <h1 id="TimerID" align="center"></h1>
             </div>
-            <div style="margin-left: 620px;">
-                <div align="right" id="map3d"
-                     style="height: 600px;
+            <div style="margin-left: 50px;">
+
+                <section class="checkBoxListFor">
+                    <p>
+                        <h4>Please Select Continent(s):</h4>
+                        @using (Html.BeginForm("Play", "Home", FormMethod.Post))
+                        {
+                            @Html.CheckBoxListFor(model => model.PostedCheckContinents.CheckContinentIds,
+                                  model => model.AvailableCheckContinents,
+                                  checkcontinent => checkcontinent.Id,
+                                  checkcontinent => checkcontinent.Name,
+                                  model => model.SelectedCheckContinents,
+                                  Position.Vertical)
+
+
+                        <input class="btn btn-primary btn-default" type="submit" value="Submit" />
+                            }
+                    </p>
+                </section>
+
+                    <input type="submit" value="Save" />
+                    } 
+                <div class="content"><h3><b>Score:</b>    <span class='scor'></span></h3></div>
+                <div class="content"><h3><b>Correct answers:</b>    <span class='toc'></span></h3></div>
+                <div class="content"><h3><b>Incorrect answers:</b>   <span class='netoc'></span></h3></div>
+                <form action="#" onsubmit="return spremiBazu(document.getElementById('nick').value);">
+                    <h4 class="hidden" id="submitHidden">
+                        <input type="text" id="nick" value="Enter Nickname"
+                               onfocus="(this.value == 'Enter Nickname') && (this.value = '')"
+                               onblur="(this.value == '') && (this.value = 'Enter Nickname')"><br>
+                        <input class="btn btn-warning btn-default" type="submit" value="Submit highscore">
+                    </h4>
+                </form>
+                <form action="#" onsubmit="return learningMode();">
+                    <h4 class="text" id="lrn">
+                        <input class="btn btn-primary btn-default" id="btnLrn" type="submit" value="Learning mode">
+                    </h4>
+                </form>
+            </div>
+        </div>
+        <div style="margin-left: 620px;">
+            <div align="right" id="map3d"
+                 style="height: 600px;
                       width: 900px;">
-                    <h2>
+                <h2>
 
-                        <script type="text/javascript">
-    $.ajaxSetup({
-        // Disable caching of AJAX responses
-        cache: false,
-        error: function (jqXHR, exception) {
-            if (jqXHR.status === 0) {
-                alert('Not connect.\n Verify Network.');
-            } else if (jqXHR.status == 404) {
-                alert('Requested page not found. [404]');
-            } else if (exception === 'parsererror') {
-                alert('Requested JSON parse failed.');
-            } else if (exception === 'timeout') {
-                alert('Time out error.');
-            } else if (exception === 'abort') {
-                alert('Ajax request aborted.');
-            } else if (jqXHR.status == 500) {
-                alert('Internal Server Error [500].');
-            } else {
-                alert('Uncaught Error.\n' + jqXHR.responseText);
-            }
-        }
-    });
-
-    var MyAppUrlSettings = {
-        MyUsefulUrl: '@Url.Action("RandomDrzava2","Home")'
+                    <script type="text/javascript">
+                        $.ajaxSetup({
+                            // Disable caching of AJAX responses
+                            cache: false,
+                            error: function (jqXHR, exception) {
+                                if (jqXHR.status === 0) {
+                                    alert('Not connect.\n Verify Network.');
+                                } else if (jqXHR.status == 404) {
+                                    alert('Requested page not found. [404]');
+                                } else if (exception === 'parsererror') {
+                                    alert('Requested JSON parse failed.');
+                                } else if (exception === 'timeout') {
+                                    alert('Time out error.');
+                                } else if (exception === 'abort') {
+                                    alert('Ajax request aborted.');
+                                } else if (jqXHR.status == 500) {
+                                    alert('Internal Server Error [500].');
+                                } else {
+                                    alert('Uncaught Error.\n' + jqXHR.responseText);
+                                }
                             }
+                        });
 
-                            function NovaD() {
-                                //alert(MyAppUrlSettings.MyUsefulUrl);
+                        var MyAppUrlSettings = {
+                            MyUsefulUrl: '@Url.Action("RandomDrzava2","Home")'
+                        }
+                        var MyAppUrlSettings2 = {
+                            MyUsefulUrl2: '@Url.Action("PunjenjeDrzava","Home")'
+                        }
+                        var MyAppUrlSettings3 = {
+                            MyUsefulUrl3: '@Url.Action("BrisanjePogodene","Home")'
+                        }
+                        function NovaD() {
+                            
+                            var abc = $.ajax({
+                                type: "POST",
+                                url: MyAppUrlSettings.MyUsefulUrl,
+                                data: {},
+                                async: false,
+                                error: function (msg) {
+                                    callback(msg);
+                                },
+                                success: function (msg) {
+                                    drz1 = msg;
+                                    $("#divResult").html("success");
+                                },
 
-                                //alert("a");
-                                var abc = $.ajax({
-                                    type: "POST",
-                                    url: MyAppUrlSettings.MyUsefulUrl,
-                                    data: {},
-                                    async: false,
-                                    error: function (msg) {
-                                        callback(msg);
-                                    },
-                                    success: function (msg) {
-                                        drz1 = msg;
-                                        $("#divResult").html("success");
-                                    },
-
-                                });
-                                drz = drz1.replace(/&amp;/g, '&');
-                                $(".content .value").html(drz);
-                            }
+                            });
+                            drz = drz1.replace(/&amp;/g, '&');
+                            $(".content .value").html(drz);
+                        }
+                        function NapuniDrzave() {
+                            var abc = $.ajax({
+                                type: "POST",
+                                url: MyAppUrlSettings2.MyUsefulUrl2,
+                                data: {},
+                                async: false,
+                                error: function (msg) {
+                                    callback(msg);
+                                },
+                                success: function (msg) {
+                                    $("#divResult").html("success");
+                                },
 
                             var putanja = {
                                 put: '@Url.Action("SpremiScore","Home")'
-                            }
+                        }
+                        function BrisiPogodenu() {
+                            var abc = $.ajax({
+                                type: "POST",
+                                url: MyAppUrlSettings3.MyUsefulUrl3,
+                                data: {},
+                                async: false,
+                                error: function (msg) {
+                                    callback(msg);
+                                },
+                                success: function (msg) {
+                                    $("#divResult").html("success");
+                                },
 
-                            function spremiBazu(nickname) {
-                                //alert(nickname);
-                                //alert(Score);
-                                y.setAttribute('class', 'hidden');
-                                var parameter = { nick: nickname, score: Score  }
-                                var a = $.ajax({
-                                    type: "POST",
-                                    url: MyAppUrlSettings.MyUsefulUrl,
-                                    data: parameter,
-                                    success: function (msg) {
-                                        alert(msg);
-                                        $("#divResult").html("success");
-                                    },
+                            });
+                        }
 
-                                });
-                            }
+                        function spremiBazu(nickname) {
+                            alert(nickname);
+                            alert(Score);
+                            y.setAttribute('class', 'hidden');
+                        }
 
-                            function learningMode() {
-                                if (upali == 1) {
-                                    btn.setAttribute('class', 'btn btn-primary btn-success');
-                                    upali = 0;
-                                    google.earth.removeEventListener(ge.getGlobe(), 'click', popupPrevent); //omogucavanje balona
-                                    google.earth.removeEventListener(ge, "frameend", spin);
-                                    if (kmlPostoji == 1) {
-                                        ge.getFeatures().removeChild(ge.getFeatures().getLastChild());
-                                        kmlPostoji = 0;
-                                    }
-                                    addKmlFromUrl(kmlUrl);
-                                    stop();
-                                }
-                                else if (upali == 0) {
-                                    btn.setAttribute('class', 'btn btn-primary btn-default');
-                                    google.earth.addEventListener(ge.getGlobe(), 'click', popupPrevent); //sprijecavanje balona nakon klika
-                                    upali = 1;
-                                    stopGame();
-                                }
-                            }
-
-                            function NovaIgra() {
-                                google.earth.addEventListener(ge.getGlobe(), 'click', popupPrevent); //sprijecavanje balona nakon klika
-                                brTocnih = 0;
-                                brNetocnih = 0;
-                                Score = 0;
-                                igra = 1;
-                                NovaD();
-                                y.setAttribute('class', 'hidden'); //skriva submit highscore
-                                learn.setAttribute('class', 'hidden');
-                                $(".content .toc").html(brTocnih);
-                                $(".content .netoc").html(brNetocnih);
-                                $(".content .scor").html(Score);
-                                $(".content .value").html(drz);
+                        function learningMode() {
+                            if (upali == 1) {
+                                btn.setAttribute('class', 'btn btn-primary btn-success');
+                                upali = 0;
+                                google.earth.removeEventListener(ge.getGlobe(), 'click', popupPrevent); //omogucavanje balona
+                                google.earth.removeEventListener(ge, "frameend", spin);
                                 if (kmlPostoji == 1) {
                                     ge.getFeatures().removeChild(ge.getFeatures().getLastChild());
                                     kmlPostoji = 0;
                                 }
                                 addKmlFromUrl(kmlUrl);
+                                stop();
                             }
-
-                            function Zumiraj(a, b, c) {
-                                setLookAt(ge, a, b, c);
+                            else if (upali == 0) {
+                                btn.setAttribute('class', 'btn btn-primary btn-default');
+                                google.earth.addEventListener(ge.getGlobe(), 'click', popupPrevent); //sprijecavanje balona nakon klika
+                                upali = 1;
+                                stopGame();
                             }
+                        }
 
-                            var upali = 1; //za paljenje learning moda
-                            var igra = 0;
-                            var brTocnih = 0;
-                            var brNetocnih = 0;
-                            var Score = 0;
+                        function NovaIgra() {
+                            google.earth.addEventListener(ge.getGlobe(), 'click', popupPrevent); //sprijecavanje balona nakon klika
+                            brTocnih = 0;
+                            brNetocnih = 0;
+                            Score = 0;
+                            igra = 1;
+                            NapuniDrzave();
+                            NovaD();
+                            y.setAttribute('class', 'hidden'); //skriva submit highscore
+                            learn.setAttribute('class', 'hidden');
                             $(".content .toc").html(brTocnih);
                             $(".content .netoc").html(brNetocnih);
                             $(".content .scor").html(Score);
-
-                            var y = document.getElementById("submitHidden");
-                            //y.class.display = "text";
-                            var learn = document.getElementById("lrn");
-                            var btn = document.getElementById("btnLrn");
-
-                            var ge;
-                            google.load("earth", "1", { "other_params": "sensor=false" });
-                            google.setOnLoadCallback(init);
-
-
-                            function init() {
-                                google.earth.createInstance('map3d', initCB, failureCB);
-
-                            }
-
-                            //rotacija
-                            speed = 4; // degrees/second
-                            lastFrameTs = (new Date()).getTime(); //last frame's timestamp
-                            function spin() {
-                                ge.getOptions().setFlyToSpeed(5);
-                                var nowTs = (new Date()).getTime();  //currrent timestamp
-                                var dt = nowTs - lastFrameTs; //delta time
-                                lastFrameTs = nowTs;
-                                var lookAt = ge.getView().copyAsLookAt(ge.ALTITUDE_ABSOLUTE);
-                                var distance = dt * (speed / 1000); //distance to rotate
-                                var newLongitude = lookAt.getLongitude() - distance;
-                                lookAt.setLongitude(newLongitude);
-                                ge.getView().setAbstractView(lookAt);
-                            }
-
-                            //inicijaliziranje
-                            function initCB(instance) {
-                                ge = instance;
-                                ge.getWindow().setVisibility(true);
-                                ge.getLayerRoot().enableLayerById(ge.LAYER_BORDERS, false);
-                                // Get the current view - which is America view by default
+                            $(".content .value").html(drz);
+                            if (kmlPostoji == 1) {
+                                ge.getFeatures().removeChild(ge.getFeatures().getLastChild());
                                 kmlPostoji = 0;
-
-                                //loadanje KML-a
-                                google.earth.addEventListener(ge.getGlobe(), 'click', popupPrevent); //sprijecavanje balona nakon klika
-                                google.earth.addEventListener(ge.getGlobe(), 'dblclick', recordEvent); //sprijecavanje balona nakon klika
-                                google.earth.addEventListener(ge, "frameend", spin);
-
-
-                                spin();
-
                             }
-                            var kmlUrl = 'https://sites.google.com/site/mislavsite/countries_world-kml/doc3.kml?attredirects=0&d=1';
+                            addKmlFromUrl(kmlUrl);
+                        }
+
+                        function Zumiraj(a, b, c) {
+                            setLookAt(ge, a, b, c);
+                        }
+
+                        var upali = 1; //za paljenje learning moda
+                        var igra = 0;
+                        var brTocnih = 0;
+                        var brNetocnih = 0;
+                        var Score = 0;
+                        $(".content .toc").html(brTocnih);
+                        $(".content .netoc").html(brNetocnih);
+                        $(".content .scor").html(Score);
+
+                        var y = document.getElementById("submitHidden");
+                        //y.class.display = "text";
+                        var learn = document.getElementById("lrn");
+                        var btn = document.getElementById("btnLrn");
+
+                        var ge;
+                        google.load("earth", "1", { "other_params": "sensor=false" });
+                        google.setOnLoadCallback(init);
+
+
+                        function init() {
+                            google.earth.createInstance('map3d', initCB, failureCB);
+
+                        }
+
+                        //rotacija
+                        speed = 4; // degrees/second
+                        lastFrameTs = (new Date()).getTime(); //last frame's timestamp
+                        function spin() {
+                            ge.getOptions().setFlyToSpeed(5);
+                            var nowTs = (new Date()).getTime();  //currrent timestamp
+                            var dt = nowTs - lastFrameTs; //delta time
+                            lastFrameTs = nowTs;
+                            var lookAt = ge.getView().copyAsLookAt(ge.ALTITUDE_ABSOLUTE);
+                            var distance = dt * (speed / 1000); //distance to rotate
+                            var newLongitude = lookAt.getLongitude() - distance;
+                            lookAt.setLongitude(newLongitude);
+                            ge.getView().setAbstractView(lookAt);
+                        }
+
+                        //inicijaliziranje
+                        function initCB(instance) {
+                            ge = instance;
+                            ge.getWindow().setVisibility(true);
+                            ge.getLayerRoot().enableLayerById(ge.LAYER_BORDERS, false);
+                            // Get the current view - which is America view by default
+                            kmlPostoji = 0;
+
+                            //loadanje KML-a
+                            google.earth.addEventListener(ge.getGlobe(), 'click', popupPrevent); //sprijecavanje balona nakon klika
+                            google.earth.addEventListener(ge.getGlobe(), 'dblclick', recordEvent); //sprijecavanje balona nakon klika
+                            google.earth.addEventListener(ge, "frameend", spin);
+
+
+                            spin();
+
+                        }
+                        var kmlUrl = 'https://sites.google.com/site/mislavsite/countries_world-kml/doc3.kml?attredirects=0&d=1';
 
                             function addKmlFromUrl(kmlUrl) {
-                                kmlPostoji = 1;
+                            kmlPostoji = 1;
                                 google.earth.fetchKml(ge, kmlUrl, kmlFinishedLoading);
                             }
 
                             function kmlFinishedLoading(kmlObject) {
                                 if (kmlObject) {
-                                    kmlPostoji = 1;
+                                kmlPostoji = 1;
                                     ge.getFeatures().appendChild(kmlObject);
                                 }
                             }
@@ -299,9 +307,9 @@
 
                             //double-click oznacavanje konacnog odgovora (drzave)
 
-                            var yourBest = 0;
-                            drz = "Press New Game to play";
-                            $(".content .value").html(drz);
+                        var yourBest = 0;
+                        drz = "Press New Game to play";
+                        $(".content .value").html(drz);
 
                             function recordEvent(event) {
                                 event.preventDefault();
@@ -314,7 +322,7 @@
                                         // get the data you want from the target.
                                         var description = target.getDescription();
                                         var tocnaDrzava = description.indexOf("=" + drz + "'");  //gdje je Niger ići će varijabla trenutna država koju ćemo izgenerirati
-                                        if (tocnaDrzava == -1) {
+                                    if (tocnaDrzava == -1) {
                                             brNetocnih = brNetocnih + 1;
                                             if (Score >= 5)
                                                 Score = Score - 5;
@@ -324,10 +332,11 @@
                                             setTimeout(function () { boja.set(a) }, 85); //nakon 85 milisekundi vrati boju koja je bila
                                         }
 
-                                        else if (tocnaDrzava != -1) {
+                                    else if (tocnaDrzava != -1) {
                                             brTocnih = brTocnih + 1;
                                             Score = Score + 10;
                                             target.getStyleSelector().getPolyStyle().getColor().set('ff6d9600');
+                                            BrisiPogodenu();
                                         }
                                         //STAVIT METODU UPDATEDISPLAY();
 
@@ -339,97 +348,97 @@
 
                                     }
                                 }
+                        }
+
+                        //funkcija za podesavanje pogleda na kontinente
+                        function setLookAt(ge, latitude, longitude, range) {
+                            var lookAt = ge.createLookAt('');
+                            lookAt.setLatitude(latitude);
+                            lookAt.setLongitude(longitude);
+                            lookAt.setRange(range);
+                            ge.getView().setAbstractView(lookAt);
+                        }
+
+                        //kraj rotacije
+                        function stop() {
+                            google.earth.removeEventListener(ge, "frameend", spin);
+                            ge.getOptions().setFlyToSpeed(1.3);
+                        }
+
+                        //trebalo bi: onemogućuje klik na države i računanje bodova
+                        function stopGame() {
+                            igra = 0;
+                            learn.setAttribute('class', 'text');
+                            if (Score > yourBest) {
+                                y.setAttribute('class', 'text'); //postavi na visible
+                                yourBest = Score;
                             }
-
-                            //funkcija za podesavanje pogleda na kontinente
-                            function setLookAt(ge, latitude, longitude, range) {
-                                var lookAt = ge.createLookAt('');
-                                lookAt.setLatitude(latitude);
-                                lookAt.setLongitude(longitude);
-                                lookAt.setRange(range);
-                                ge.getView().setAbstractView(lookAt);
+                            if (kmlPostoji == 1) {
+                                ge.getFeatures().removeChild(ge.getFeatures().getLastChild());
+                                kmlPostoji = 0;
                             }
-
-                            //kraj rotacije
-                            function stop() {
-                                google.earth.removeEventListener(ge, "frameend", spin);
-                                ge.getOptions().setFlyToSpeed(1.3);
-                            }
-
-                            //trebalo bi: onemogućuje klik na države i računanje bodova
-                            function stopGame() {
-                                igra = 0;
-                                learn.setAttribute('class', 'text');
-                                if (Score > yourBest) {
-                                    y.setAttribute('class', 'text'); //postavi na visible
-                                    yourBest = Score;
-                                }
-                                if (kmlPostoji == 1) {
-                                    ge.getFeatures().removeChild(ge.getFeatures().getLastChild());
-                                    kmlPostoji = 0;
-                                }
-                                google.earth.addEventListener(ge, "frameend", spin);
-                                spin();
-                                Zumiraj(40.0, -90.0, 15000000.0);
-                                drz = "Press New Game to play";
-                                $(".content .value").html(drz);
-                            }
+                            google.earth.addEventListener(ge, "frameend", spin);
+                            spin();
+                            Zumiraj(40.0, -90.0, 15000000.0);
+                            drz = "Press New Game to play";
+                            $(".content .value").html(drz);
+                        }
 
 
-                            //timer, u redu 19 ovo postavljeno <h1 id="TimerID"></h1>, i na new game se poziva
-                            var Timer;
-                            var TotalSeconds;
-                            function CreateTimer(TimerID, Time) {
-                                Timer = document.getElementById(TimerID);
-                                TotalSeconds = Time;
+                        //timer, u redu 19 ovo postavljeno <h1 id="TimerID"></h1>, i na new game se poziva
+                        var Timer;
+                        var TotalSeconds;
+                        function CreateTimer(TimerID, Time) {
+                            Timer = document.getElementById(TimerID);
+                            TotalSeconds = Time;
+                            UpdateTimer()
+                            window.setTimeout("Tick()", 1000);
+                        }
+                        function Tick() {
+                            if (TotalSeconds > 0) {
+                                TotalSeconds -= 1;
                                 UpdateTimer()
                                 window.setTimeout("Tick()", 1000);
                             }
-                            function Tick() {
-                                if (TotalSeconds > 0) {
-                                    TotalSeconds -= 1;
-                                    UpdateTimer()
-                                    window.setTimeout("Tick()", 1000);
-                                }
-                                else {
-                                    //alert("Time is out!");
-                                    //google.earth.removeEventListener(ge.getGlobe(), "dblclick", recordEvent);
-                                    stopGame();
-                                }
+                            else {
+                                //alert("Time is out!");
+                                //google.earth.removeEventListener(ge.getGlobe(), "dblclick", recordEvent);
+                                stopGame();
                             }
-                            function UpdateTimer() {
-                                Timer.innerHTML = TotalSeconds;
-                            }
-                            function displayResult() {
-                                document.getElementById("TimerID").innerHTML;
-                            }
-                            //kraj timera
+                        }
+                        function UpdateTimer() {
+                            Timer.innerHTML = TotalSeconds;
+                        }
+                        function displayResult() {
+                            document.getElementById("TimerID").innerHTML;
+                        }
+                        //kraj timera
 
 
-                            function failureCB(errorCode) {
-                            }
-                            google.setOnLoadCallback(init);
-                        </script>
-                    </h2>
-                </div>
-                <div class="navbar navbar-default" style="width: 900px;">
-                    <div class="container">
-                        <div class="navbar-collapse collapse">
-                            <ul class="nav navbar-nav">
-                                <li><a onclick="Zumiraj(50.0, 20.0, 4500000.0);" style="cursor: pointer;">Europe</a></li>
-                                <li><a onclick="Zumiraj(0.0, 20.0, 9000000.0);" style="cursor: pointer;">Africa</a></li>
-                                <li><a onclick="Zumiraj(35.0, 90.0, 9000000.0);" style="cursor: pointer;">Asia</a></li>
-                                <li><a onclick="Zumiraj(40.0, -90.0, 9000000.0);" style="cursor: pointer;">North America</a></li>
-                                <li><a onclick="Zumiraj(-20.00, -60.0, 8000000.0);" style="cursor: pointer;">South America</a></li>
-                                <li><a onclick="Zumiraj(-22.0, 140.0, 7500000.0);" style="cursor: pointer;">Australia</a></li>
-                                <li>                                                          </li>
-                                <li><a onclick="NovaIgra(); stop(); CreateTimer('TimerID', 30);" style="cursor: pointer;">New Game</a></li>
-                            </ul>
-                        </div>
-
+                        function failureCB(errorCode) {
+                        }
+                        google.setOnLoadCallback(init);
+                    </script>
+                </h2>
+            </div>
+            <div class="navbar navbar-default" style="width: 900px;">
+                <div class="container">
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a onclick="Zumiraj(50.0, 20.0, 4500000.0);" style="cursor: pointer;">Europe</a></li>
+                            <li><a onclick="Zumiraj(0.0, 20.0, 9000000.0);" style="cursor: pointer;">Africa</a></li>
+                            <li><a onclick="Zumiraj(35.0, 90.0, 9000000.0);" style="cursor: pointer;">Asia</a></li>
+                            <li><a onclick="Zumiraj(40.0, -90.0, 9000000.0);" style="cursor: pointer;">North America</a></li>
+                            <li><a onclick="Zumiraj(-20.00, -60.0, 8000000.0);" style="cursor: pointer;">South America</a></li>
+                            <li><a onclick="Zumiraj(-22.0, 140.0, 7500000.0);" style="cursor: pointer;">Australia</a></li>
+                            <li>                                                          </li>
+                            <li><a onclick="NovaIgra(); stop(); CreateTimer('TimerID', 30);" style="cursor: pointer;">New Game</a></li>
+                        </ul>
                     </div>
+
                 </div>
             </div>
         </div>
-    </body>
+    </div>
+</body>
 </html>

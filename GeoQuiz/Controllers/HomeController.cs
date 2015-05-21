@@ -18,8 +18,8 @@ namespace GeoQuiz.Controllers
     {
         private GeoQuizEntities db = new GeoQuizEntities();
         Random rand = new Random();
-
         List<int> sifkon = new List<int>();
+       
        
         [HttpGet]
         public ActionResult Index()
@@ -30,47 +30,99 @@ namespace GeoQuiz.Controllers
         [HttpGet]
         public ActionResult Play()
         {
-            return View(new CheckContinent());
+            return View(GetCheckContinentsInitialModel());
+        }
+        [HttpPost]
+        public ActionResult Play(PostedCheckContinents postedCheckContinents)
+        {
+            return View(GetCheckContinentModel(postedCheckContinents));
+        }
+        public CheckContinentViewModel GetCheckContinentModel(PostedCheckContinents postedCheckContinents)
+        {
+
+
+            Array.Clear(GlobVar.postedCheckCon, 0, GlobVar.postedCheckCon.Length);
+
+            
+            var model = new CheckContinentViewModel();
+            var selectedCheckContinents = new List<CheckContinent>();
+            var postedCheckContinentIds = new string[0];
+            if (postedCheckContinents == null) postedCheckContinents = new PostedCheckContinents();
+
+            
+            if (postedCheckContinents.CheckContinentIds != null && postedCheckContinents.CheckContinentIds.Any())
+            {
+                postedCheckContinentIds = postedCheckContinents.CheckContinentIds;
+                GlobVar.postedCheckCon = postedCheckContinents.CheckContinentIds;
+            }
+            
+            // if there are any selected ids saved, create a list of checkcontinents
+            if (postedCheckContinentIds.Any())
+            {
+                selectedCheckContinents = CheckContinentRepository.GetAll()
+                 .Where(x => postedCheckContinentIds.Any(s => x.Id.ToString().Equals(s)))
+                 .ToList();
+
+            }
+
+          
+            model.AvailableCheckContinents = CheckContinentRepository.GetAll().ToList();
+            model.SelectedCheckContinents= selectedCheckContinents;
+            model.PostedCheckContinents = postedCheckContinents;
+
+            return model;
+        }
+        public CheckContinentViewModel GetCheckContinentsInitialModel()
+        {
+            //setup properties
+            var model = new CheckContinentViewModel();
+            var selectedCheckContinents = new List<CheckContinent>();
+
+            //setup a view model
+            model.AvailableCheckContinents = CheckContinentRepository.GetAll().ToList();
+            model.SelectedCheckContinents = selectedCheckContinents;
+
+            return model;
         }
         [WebMethod]
         public List<string> PunjenjeDrzava()
         {
-            List<string> novaval = GlobVar.val.Split(',').ToList();
             GlobVar.drzave.Clear();
             
-            foreach (var drz in novaval)
+            foreach (var drz in GlobVar.postedCheckCon)
             {
-                string caseSwitch = drz.Trim();
+                string caseSwitch = drz;
                 switch (caseSwitch)
                 {
-                    case "":
+                    case "0":
                         break;
-                    case "Europe":
+                    case "1":
                         sifkon.Add(1);
                         break;
-                    case "Africa":
+                    case "2":
                         sifkon.Add(2);
                         break;
-                    case "Asia":
+                    case "3":
                         sifkon.Add(3);
                         break;
-                    case "North America":
+                    case "4":
                         sifkon.Add(4);
                         break;
-                    case "South America":
+                    case "5":
                         sifkon.Add(5);
                         break;
-                    case "Australia":
+                    case "6":
                         sifkon.Add(6);
                         break;
-                    case "Whole World":
+                    case "7":
 
                         for (int i = 1; i <= 6; i++)
                         {
                             sifkon.Add(i);
                         }
                         break;
-
+                   default:
+                        break;
                 }
 
             }           
@@ -86,7 +138,6 @@ namespace GeoQuiz.Controllers
         [WebMethod]
         public string RandomDrzava2()
         {
-            GlobVar.odabrana = string.Empty;
             int r = rand.Next(GlobVar.drzave.Count);           
             GlobVar.odabrana = ((string)GlobVar.drzave[r]);
             string pomodabrana = String.Copy(GlobVar.odabrana);
@@ -134,23 +185,6 @@ namespace GeoQuiz.Controllers
             return "patkica";
         }
 
-        [HttpPost]
-        public string Show(FormCollection postedForm, CheckContinent model)
-        {
-            GlobVar.val = string.Empty;
-
-            foreach (var con in model.Continents)
-            {
-
-                if (postedForm[con].ToString().Contains("true"))
-                {
-                    GlobVar.val = GlobVar.val + "," + con;
-                }
-
-            }
-
-            return GlobVar.val;
-        }
 
         public ActionResult Instructions()
         {

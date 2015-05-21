@@ -176,6 +176,8 @@
     </Compile>
     <Compile Include="GlobVar.cs" />
     <Compile Include="Models\CheckContinent.cs" />
+    <Compile Include="Models\CheckContinentRepository.cs" />
+    <Compile Include="Models\CheckContinentViewModel.cs" />
     <Compile Include="Models\Drzava.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -201,6 +203,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\PostedCheckContinents.cs" />
     <Compile Include="Models\sysdiagrams.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
