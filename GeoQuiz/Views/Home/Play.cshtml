@@ -117,6 +117,7 @@
     var putanja = {
         put: '@Url.Action("SpremiScore","Home")'
     }
+
                         function NovaD() {
 
                             var abc = $.ajax({
@@ -151,7 +152,6 @@
                                 },
                             });
                         }
-                            
         function BrisiPogodenu() {
             var abc = $.ajax({
                 type: "POST",
@@ -323,7 +323,7 @@
         //double-click oznacavanje konacnog odgovora (drzave)
 
         var yourBest = 0;
-        drz = "Press New Game to play";
+        drz = "Submit continents and press New Game";
         $(".content .value").html(drz);
 
         function recordEvent(event) {
