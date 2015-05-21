@@ -25,7 +25,7 @@ namespace GeoQuiz.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            return View(db.HighScore.ToList());
         }
 
         [HttpGet]
@@ -207,6 +207,13 @@ namespace GeoQuiz.Controllers
             ViewBag.Message = "Instructions";
 
             return View();
+        }
+
+        public ActionResult HighScore()
+        {
+            ViewBag.Message = "Highscore";
+
+            return View(db.HighScore.ToList());
         }
 
         public ActionResult Learning()

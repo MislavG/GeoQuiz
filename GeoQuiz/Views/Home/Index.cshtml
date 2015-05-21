@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<GeoQuiz.Models.HighScore>
+@{
     ViewBag.Title = "GeoQuiz";
 }
 <body class="container body-content">
@@ -17,11 +18,23 @@
         <div class="col-md-4">
             <h2>Top 5 highscores</h2>
             <p>
-                <li>Tofi : 150</li>
+                @foreach (var item in Model)
+                {
+                    <li>
+                            @Html.DisplayFor(modelItem => item.Nadimak)
+                            @Html.DisplayFor(modelItem => item.Bodovi)
+                        </li>
+                        @*<td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.SifraHS }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.SifraHS }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.SifraHS })
+                        </td>*@
+                }
+                @*<li>Tofi : 150</li>
                 <li>Martina : 100</li>
                 <li>Mic : 30 </li>
                 <li>Ana : 20</li>
-                <li>Antonio : 10</li>
+                <li>Antonio : 10</li>*@
             </p>
         </div>
         <div id="earth" style="float:left"></div>
@@ -40,14 +53,14 @@
             }
         </style>
         @*@keyframes rotate {
-            from {
-                background-position-x: 0px;
-            }
+                from {
+                    background-position-x: 0px;
+                }
 
-            to {
-                background-position-x: 210px;
-            }
-        } *@
+                to {
+                    background-position-x: 210px;
+                }
+            }*@ 
 
     </div>
 </body>

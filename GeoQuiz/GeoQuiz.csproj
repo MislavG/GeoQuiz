@@ -169,7 +169,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\DrzavaController.cs" />
-    <Compile Include="Controllers\HighScoreController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KontinentController.cs" />
     <Compile Include="Global.asax.cs">
@@ -271,17 +270,13 @@
     <Content Include="Views\Drzava\Details.cshtml" />
     <Content Include="Views\Drzava\Edit.cshtml" />
     <Content Include="Views\Drzava\Index.cshtml" />
-    <Content Include="Views\HighScore\Create.cshtml" />
-    <Content Include="Views\HighScore\Delete.cshtml" />
-    <Content Include="Views\HighScore\Details.cshtml" />
-    <Content Include="Views\HighScore\Edit.cshtml" />
-    <Content Include="Views\HighScore\Index.cshtml" />
     <Content Include="Views\Home\Play.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Learning.cshtml" />
     <Content Include="Views\Instructions.cshtml" />
     <Content Include="Views\Home\Instructions.cshtml" />
+    <Content Include="Views\Home\HighScore.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

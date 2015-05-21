@@ -41,7 +41,7 @@
             <div style="margin-left: 50px;">
 
                 <section class="checkBoxListFor">
-                    <p class="text" id="chck">
+                    <p>
                         <h4>Select Continents:</h4>
                         @using (Html.BeginForm("Play", "Home", FormMethod.Post))
                         {
@@ -171,6 +171,8 @@
         function spremiBazu(nickname) {
             //alert(nickname);
             //alert(Score);
+            if (nickname == null)
+                nickname="unknown"
             y.setAttribute('class', 'hidden');
             var parameter = { nick: nickname, score: Score  }
             var a = $.ajax({
@@ -214,7 +216,6 @@
             NapuniDrzave();
             NovaD();
             y.setAttribute('class', 'hidden'); //skriva submit highscore
-            check.setAttribute('class', 'hidden');
             learn.setAttribute('class', 'hidden');
             $(".content .toc").html(brTocnih);
             $(".content .netoc").html(brNetocnih);
@@ -243,7 +244,6 @@
         var y = document.getElementById("submitHidden");
         //y.class.display = "text";
         var learn = document.getElementById("lrn");
-        var check = document.getElementById("chck");
 
         var ge;
         google.load("earth", "1", { "other_params": "sensor=false" });
@@ -339,8 +339,9 @@
                     var tocnaDrzava = description.indexOf("=" + drz + "'");  //gdje je Niger ići će varijabla trenutna država koju ćemo izgenerirati
                     if (tocnaDrzava == -1) {
                         brNetocnih = brNetocnih + 1;
-                        if (Score >= 5)
-                            Score = Score - 5*(brojkontinenata%2);
+                        Score = Score - oduzmi(brojkontinenata);
+                        if (Score < 0)
+                            Score = 0;
                         var boja;
                         var a = boja.get(); //uzima trenutnu boju
                         boja.set('EE5C42ff'); //obojaj u crveno
@@ -349,7 +350,7 @@
 
                     else if (tocnaDrzava != -1) {
                         brTocnih = brTocnih + 1;
-                        Score = Score + 10*brojkontinenata;
+                        Score = Score + zbroji(brojkontinenata);
                         target.getStyleSelector().getPolyStyle().getColor().set('ff6d9600');
                         BrisiPogodenu();
                     }
@@ -363,6 +364,37 @@
 
                 }
             }
+        }
+
+        function oduzmi(broj){
+            if (broj == 1)
+                return 10;
+            else if (broj == 2)
+                return 8;
+            else if (broj == 3)
+                return 6;
+            else if (broj == 4)
+                return 5;
+            else if (broj == 5)
+                return 4;
+            else if (broj == 6)
+                return 3;
+            else return 3;
+        }
+        function zbroji(broj){
+            if (broj==1)
+                return 11;
+            else if(broj==2)
+                return 12;
+            else if(broj==3)
+                return 13;
+            else if(broj==4)
+                return 14;
+            else if(broj==5)
+                return 15;
+            else if(broj==6)
+                return 16;
+            else return 16;
         }
 
         //funkcija za podesavanje pogleda na kontinente
@@ -384,7 +416,6 @@
         function stopGame() {
             igra = 0;
             //learn.setAttribute('class', 'text');
-            check.setAttribute('class', 'text');
             if (Score > yourBest) {
                 y.setAttribute('class', 'text'); //postavi na visible
                 yourBest = Score;
