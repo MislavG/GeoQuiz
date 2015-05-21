@@ -18,23 +18,68 @@
         <div class="col-md-4">
             <h2>Top 5 highscores</h2>
             <p>
-                @foreach (var item in Model)
+                @*@foreach (var item in Model)
                 {
                     <li>
-                            @Html.DisplayFor(modelItem => item.Nadimak)
-                            @Html.DisplayFor(modelItem => item.Bodovi)
-                        </li>
+                            @Html.DisplayFor(modelItem => item.Nick)
+                            @Html.DisplayFor(modelItem => item.Score)
+                        </li> *@
                         @*<td>
                             @Html.ActionLink("Edit", "Edit", new { id = item.SifraHS }) |
                             @Html.ActionLink("Details", "Details", new { id = item.SifraHS }) |
                             @Html.ActionLink("Delete", "Delete", new { id = item.SifraHS })
-                        </td>*@
+                        </td>
                 }
                 @*<li>Tofi : 150</li>
                 <li>Martina : 100</li>
                 <li>Mic : 30 </li>
                 <li>Ana : 20</li>
                 <li>Antonio : 10</li>*@
+                <script type="text/javascript">
+    $.ajaxSetup({
+        // Disable caching of AJAX responses
+        cache: false,
+        error: function (jqXHR, exception) {
+            if (jqXHR.status === 0) {
+                alert('Not connect.\n Verify Network.');
+            } else if (jqXHR.status == 404) {
+                alert('Requested page not found. [404]');
+            } else if (exception === 'parsererror') {
+                alert('Requested JSON parse failed.');
+            } else if (exception === 'timeout') {
+                alert('Time out error.');
+            } else if (exception === 'abort') {
+                alert('Ajax request aborted.');
+            } else if (jqXHR.status == 500) {
+                alert('Internal Server Error [500].');
+            } else {
+                alert('Uncaught Error.\n' + jqXHR.responseText);
+            }
+        }
+    });
+
+    var MyAppUrlSettings4 = {
+        MyUsefulUrl4: '@Url.Action("DohvatiHS","Home")'
+    }
+                    function DohvatiHS() {
+                        var abc = $.ajax({
+                            type: "POST",
+                            url: MyAppUrlSettings4.MyUsefulUrl4,
+                            data: {},
+                            async: false,
+                            error: function (msg) {
+                                callback(msg);
+                            },
+                            success: function (msg) {
+                                brojkontinenata = msg;
+                                $("#divResult").html("success");
+                            },
+                        });
+                    }
+
+                    DohvatiHS();
+    </script>
+
             </p>
         </div>
         <div id="earth" style="float:left"></div>
@@ -60,7 +105,7 @@
                 to {
                     background-position-x: 210px;
                 }
-            }*@ 
+            }*@
 
     </div>
 </body>

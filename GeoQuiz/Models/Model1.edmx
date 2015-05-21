@@ -14,7 +14,7 @@
           <Property Name="NazivDrzavaHr" Type="nchar" MaxLength="50" Nullable="false" />
           <Property Name="NazivDrzavaEng" Type="nchar" MaxLength="50" Nullable="false" />
           <Property Name="GlavniGrad" Type="nchar" MaxLength="40" />
-          <Property Name="BrojStanovnika" Type="nchar" MaxLength="15" />
+          <Property Name="BrojStanovnika" Type="nchar" MaxLength="20" />
           <Property Name="Zastava" Type="image" />
         </EntityType>
         <EntityType Name="HighScore">
@@ -22,8 +22,8 @@
             <PropertyRef Name="SifraHS" />
           </Key>
           <Property Name="SifraHS" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Nadimak" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="Bodovi" Type="int" />
+          <Property Name="Nick" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Score" Type="int" />
         </EntityType>
         <EntityType Name="Kontinent">
           <Key>
@@ -77,7 +77,7 @@
           <Property Name="SifraKontinent" Type="Byte" Nullable="false" />
           <Property Name="GlavniGrad" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
           <Property Name="Zastava" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="BrojStanovnika" Type="String" />
+          <Property Name="BrojStanovnika" Type="String" MaxLength="20" Unicode="true" FixedLength="true" />
           <NavigationProperty Name="Kontinent" Relationship="Self.FK_Drzava_Kontinent" FromRole="Drzava" ToRole="Kontinent" />
           <Property Name="NazivDrzavaHr" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
           <Property Name="NazivDrzavaEng" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
@@ -87,8 +87,8 @@
             <PropertyRef Name="SifraHS" />
           </Key>
           <Property Name="SifraHS" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nadimak" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="Bodovi" Type="Int32" />
+          <Property Name="Nick" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Score" Type="Int32" />
         </EntityType>
         <EntityType Name="Kontinent">
           <Key>
@@ -153,10 +153,10 @@
           <EntitySetMapping Name="HighScore">
             <EntityTypeMapping TypeName="GeoQuizModel.HighScore">
               <MappingFragment StoreEntitySet="HighScore">
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="Nick" ColumnName="Nick" />
                 <ScalarProperty Name="SifraHS" ColumnName="SifraHS" />
-                <ScalarProperty Name="Nadimak" ColumnName="Nadimak" />
-                <ScalarProperty Name="Bodovi" ColumnName="Bodovi" />
-              </MappingFragment>
+                </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Kontinent">

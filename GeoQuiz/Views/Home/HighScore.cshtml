@@ -9,11 +9,11 @@
 
     <table class="table">
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nadimak)
+            <th><h3>
+                @Html.DisplayNameFor(model => model.Nick)</h3>
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Bodovi)
+            <th><h3>
+                @Html.DisplayNameFor(model => model.Score)</h3>
             </th>
             <th></th>
         </tr>
@@ -22,10 +22,10 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Nadimak)
+                    @Html.DisplayFor(modelItem => item.Nick)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Bodovi)
+                    @Html.DisplayFor(modelItem => item.Score)
                 </td>
                 @*<td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.SifraHS }) |

@@ -15,7 +15,7 @@ namespace GeoQuiz.Models
     public partial class HighScore
     {
         public byte SifraHS { get; set; }
-        public string Nadimak { get; set; }
-        public Nullable<int> Bodovi { get; set; }
+        public string Nick { get; set; }
+        public Nullable<int> Score { get; set; }
     }
 }
