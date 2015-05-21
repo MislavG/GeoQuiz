@@ -86,7 +86,7 @@ namespace GeoQuiz.Controllers
             return model;
         }
         [WebMethod]
-        public List<string> PunjenjeDrzava()
+        public int PunjenjeDrzava()
         {
             GlobVar.drzave.Clear();
             
@@ -126,7 +126,8 @@ namespace GeoQuiz.Controllers
                         break;
                 }
 
-            }           
+            }
+            int m = sifkon.Count;
             var ids = from drzava in db.Drzava
                       where sifkon.Contains(drzava.SifraKontinent)
                       select drzava.NazivDrzavaEng;
@@ -134,7 +135,7 @@ namespace GeoQuiz.Controllers
             {
                 GlobVar.drzave.Add(d.Trim());
             }
-            return GlobVar.drzave;
+            return m;
         }
         [WebMethod]
         public string RandomDrzava2()
@@ -152,33 +153,23 @@ namespace GeoQuiz.Controllers
         }
 
         [WebMethod]
-        public string DohvatiPodatak(string stisnuta)
+        public List<string> DohvatiPodatak(string stisnuta)
         {
-            //string val = Show();
-            //List<string> novaval = GlobVar.val.Split(',').ToList();
 
-            /*var podaci= from drzava in db.Drzava
-                        where db.Drzava.NazivDrzaveEng=stisnutaDrzava
-                        select *;  PODACI DRZAVE */        
-             
-            //List<Drzava> dd = db.Drzava.ToList();
-            //List<int> myValues = new List<int>(new int[] { 1, 2, 3 });             
-            //var ids = from drzava in db.Drzava
-            //          where sifkon.Contains(drzava.SifraKontinent)
-            //          select drzava.NazivDrzavaEng;
+            List<string> podaciODrzavi = new List<string>();
 
-            //List<string> drzave = new List<string>();
+            var podaci = from drzava in db.Drzava
+                         where drzava.NazivDrzavaEng == stisnuta
+                         select new { drzava.GlavniGrad, drzava.BrojStanovnika }; //dohvaća samo ovo dvoje, ostalo nema smisla ili su nule
 
-            //foreach (var item in ids)
-            //    drzave.Add(item.Trim());
+            //sad treba smisliti kako koristiti ova gore dva podatka, to jest izvući ih iz ovog var podaci
+            //foreach (var atribut in podaci)
+            //{
+            //    atribut.ToString();
+            //    podaciODrzavi.Add(atribut);
+            //}
 
-
-            //int r = rand.Next(drzave.Count);
-            //string odabrana = ((string)drzave[r]);
-            //return Json(bla, JsonRequestBehaviour.AllowGet);
-            //return new JavaScriptSerializer().Serialize(new { errMsg = "test" });
-            return "podaci";
-            //return View();
+            return podaciODrzavi;
         }
         [WebMethod]
         public void SpremiScore(string nick, int score)
