@@ -42,7 +42,7 @@
 
                 <section class="checkBoxListFor">
                     <p>
-                        <h4>Select Continents:</h4>
+                        <h4><b>Select Continents:</b></h4>
                         @using (Html.BeginForm("Play", "Home", FormMethod.Post))
                         {
                             @Html.CheckBoxListFor(model => model.PostedCheckContinents.CheckContinentIds,
@@ -65,7 +65,7 @@
                     <h4 class="hidden" id="submitHidden">
                         <input type="text" id="nick" value="Enter Nickname"
                                onfocus="(this.value == 'Enter Nickname') && (this.value = '')"
-                               onblur="(this.value == '') && (this.value = 'Enter Nickname')"><br>
+                               onblur="(this.value == 'Unknown') && (this.value = 'Enter Nickname')"><br>
                         <input class="btn btn-warning btn-default" type="submit" value="Submit highscore">
                     </h4>
                 </form>
@@ -171,8 +171,8 @@
         function spremiBazu(nickname) {
             //alert(nickname);
             //alert(Score);
-            if (nickname == null)
-                nickname="unknown"
+            if (nickname == "")
+                nickname = "Unknown";
             y.setAttribute('class', 'hidden');
             var parameter = { nick: nickname, score: Score  }
             var a = $.ajax({

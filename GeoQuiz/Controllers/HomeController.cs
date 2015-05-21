@@ -179,8 +179,8 @@ namespace GeoQuiz.Controllers
             CTX = new GeoQuizEntities();
             HighScore hig = new HighScore
             {
-                Nadimak = nick,
-                Bodovi = score
+                Nick = nick,
+                Score = score
             };
             CTX.HighScore.Add(hig);
             
