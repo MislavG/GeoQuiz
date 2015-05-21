@@ -156,7 +156,7 @@
                 <ScalarProperty Name="Score" ColumnName="Score" />
                 <ScalarProperty Name="Nick" ColumnName="Nick" />
                 <ScalarProperty Name="SifraHS" ColumnName="SifraHS" />
-                </MappingFragment>
+              </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Kontinent">

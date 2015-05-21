@@ -137,6 +137,22 @@ namespace GeoQuiz.Controllers
             }
             return m;
         }
+        ////[WebMethod]
+        //public List<int> DohvatiHS()
+        //{
+        //    //List<int> highscoretopfive = new List<int>();
+        //    //var hsa = (from highscore in db.HighScore
+        //    //          //orederby highscore.Score descending
+        //    //          select highscore).OrderByDescending(x => x.Score);
+        //    ////foreach (var item in hsa)
+        //    ////{
+        //    ////    highscoretopfive.Add(item.Score);
+        //    ////}
+
+
+
+        //    return highscoretopfive;
+        //}
         [WebMethod]
         public string RandomDrzava2()
         {
